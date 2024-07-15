@@ -1,0 +1,215 @@
+
+## Wat zijn tijdreeksgegevens? 
+
+Tijdreeksgegevens of temporele gegevens zijn een opeenvolging van gegevenspunten die over tijdsintervallen zijn verzameld, waardoor we veranderingen in de tijd kunnen volgen. Tijdreeksgegevens kunnen veranderingen in milliseconden, dagen of zelfs jaren volgen. Toegang hebben tot gedetailleerde, functierijke tijdreeksgegevens is een van de meest waardevolle goederen geworden in onze informatiehongerige wereld. Bedrijven, overheden, scholen en gemeenschappen, groot en klein, vinden onschatbare manieren om waarde te halen uit het analyseren van tijdreeksgegevens. 
+De gebruikspatronen van softwareontwikkelaars weerspiegelen dezelfde trend:
+
+https://db-engines.com/en/ranking_categories?ref=timescale.com:
+
+image::../images/Image-120724-055544.725.png[]
+
+Het gebruik van databases lijkt wel af te nemen ... .
+
+## Waarom zijn tijdreeksgegevens waardevol? 
+
+Als je eenmaal begint met het vastleggen van tijdreeksgegevens, gaat er een compleet nieuwe wereld van analyse en inzicht voor je open. Aan de andere kant levert het vastleggen van datapunten op deze manier veel meer gegevens op. Denk bijvoorbeeld aan de aandelenmarkt. Technisch gezien zou je de prijsveranderingen van een enkel aandeel honderd keer per seconde kunnen registreren (en mensen doen dat ook!). Voor een willekeurige dag is dat 24 uur x 60 minuten x 60 seconden x 100 = 24*60*60*100 = 8.640.000 gegevensrecords per dag. En dit is slechts één enkel aandelensymbool. Deze berekening negeert het tijdsvenster waarin de markt elke dag gesloten is, maar laat nog steeds zien dat tijdreeksgegevens veel volume kunnen hebben, zelfs als je slechts één enkel aandelensymbool volgt.
+
+Predictie wordt een optie!
+
+Bancaire nuances onthullen met tijdreeksdatabases Als ik jou $10 stuur, zal een traditionele bankdatabase mijn rekening debiteren en jouw rekening crediteren. Als jij mij vervolgens $10 stuurt, gebeurt hetzelfde proces in omgekeerde volgorde. Aan het einde van dit proces zouden onze banksaldi er hetzelfde uitzien, dus de bank zou kunnen denken: "Oh, er is deze maand niets veranderd." Maar met een database met tijdreeksen zou de bank zien: "Hé, deze twee mensen blijven elkaar $10 sturen; er is hier waarschijnlijk een diepere relatie". Door deze nuance te volgen, krijgt ons rekeningsaldo aan het einde van de maand een grotere betekenis.
+
+Denk vervolgens aan een omgevingswaarde zoals de gemiddelde dagtemperatuur (MDT), het gemiddelde van de hoge en lage temperaturen voor opeenvolgende dagen op een locatie. In de afgelopen decennia is MDT gebruikt als een primaire variabele om de energie-efficiëntie van gebouwen te berekenen. In een willekeurige week kan MDT slechts licht variëren van dag tot dag op een locatie, maar de omgevingsfactoren die hieraan bijdragen kunnen in diezelfde periode drastisch veranderen. Als je weet hoe de temperatuur elk uur van de dag verandert, in combinatie met neerslag, bewolking en windsnelheid, kun je de energie-efficiëntie van je gebouwen veel beter modelleren en optimaliseren.
+
+Deze voorbeelden illustreren hoe moderne tijdreeksgegevens verschillen van wat we in het verleden kenden. De analyse van tijdreeksgegevens gaat veel dieper dan een taartdiagram of een Excel-werkmap met kolommen met samengevatte totalen. Deze gedetailleerde gegevens bevatten niet alleen tijd als een metriek, maar als een primaire component die helpt om onze gegevens te analyseren en zinvolle inzichten af te leiden. En er zijn nog veel meer soorten tijdreeksgegevens. Toch hebben alle tijdreeksdatasets, ongeacht het scenario of de use case, drie dingen gemeen: de gegevens die binnenkomen worden bijna altijd geregistreerd als een nieuw item. De gegevens komen meestal binnen in tijdsvolgorde. Tijd is een primaire as (tijdsintervallen kunnen regelmatig of onregelmatig zijn). Met andere woorden, tijdreeksdatasets zijn over het algemeen "alleen toevoegen". Hoewel het nodig kan zijn om achteraf foutieve gegevens te corrigeren of vertraagde of niet geordende gegevens te verwerken, zijn dit uitzonderingen, niet de norm. Simpel gezegd volgen tijdreeksdatasets wijzigingen in het totale systeem als INSERTs, niet als UPDATEs, wat resulteert in een alleen-append opname patroon. Deze praktijk van het vastleggen van elke wijziging in het systeem als een nieuwe, verschillende rij is wat tijdreeksgegevens zo krachtig maakt. Het stelt ons in staat om veranderingen te meten en te analyseren: wat er in het verleden is veranderd, wat er nu verandert en hoe veranderingen er volgens onze voorspellingen in de toekomst uit zullen zien. Het is je misschien ook opgevallen dat sommige van deze voorbeelden een veelvoorkomend type tijdreeksgegevens beschrijven die bekend staan als gebeurtenisgegevens.
+
+
+
+
+https://docs.eagle.io/en/latest/api/best_practices/index.html
+
+## JSON Time Series
+
+JSON Time Series (JTS) is een lichtgewicht gegevensuitwisselingsformaat voor tijdreeksgegevens. De specificatie is voorzien van een MIT-licentie voor vrij gebruik. Het is ontworpen om zeer leesbaar, parseerbaar en uitbreidbaar te zijn.
+
+[,javascript]
+----
+{
+    "docType": "jts",
+    "version": "1.0",
+    "header": {
+        "startTime": "2018-08-16T02:00:00.000Z",
+        "endTime": "2018-08-16T02:20:43.000Z",
+        "recordCount": 5,
+        "columns": {
+            "0": {
+                "id": "541a5a129bc9b4035f906d70",
+                "name": "Temperature",
+                "dataType": "NUMBER",
+                "renderType": "VALUE",
+                "format": "0.###",
+                "aggregate": "NONE"
+            }
+        }
+    },
+    "data": [
+        {
+            "ts": "2018-08-16T02:00:39.000Z",
+            "f": { "0": {"v": 99, "q": 100, "a": "site maintenance"} }
+        },
+        {
+            "ts": "2018-08-16T02:05:40.000Z",
+            "f": { "0": {"v": 28.22 } }
+        },
+        {
+            "ts": "2018-08-16T02:10:41.000Z",
+            "f": { "0": {"a": "sensor recalibrated" } }
+        },
+        {
+            "ts": "2018-08-16T02:15:42.000Z",
+            "f": { "0": {"v": 29.2, "q": 100 } }
+        },
+        {
+            "ts": "2018-08-16T02:20:43.000Z",
+            "f": { "0": {"v": 29.18 } }
+        }
+    ]
+}
+----
+
+### JTS Document specification
+
+.JTS
+[width="100%",options="header"]
+|====================
+| Attribute | Example  | Description
+| docType | Required | Must be ‘jts’ 
+| version | Required | Version ‘1.0’ supported 
+| header | Optional | Object describing document data 
+| data | Required | Array of historic records in chronological order 
+|====================
+
+[,javascript]
+----
+{
+    "docType": "jts",
+    "version": "<version>",
+    "header": {},
+    "data": []
+}
+----
+
+#### Header
+
+De koptekst is optioneel en wordt gebruikt om de gegevens in het document te beschrijven.
+
+.JTS Header
+[width="100%",options="header"]
+|====================
+| Header Attribute | Example |  
+| startTime | 2018-08-16T02:00:00.000Z | ISO8601 timestamp of earliest record in document 
+| endTime | 2018-08-16T02:20:43.000Z | ISO8601 timestamp of latest record in document 
+| recordCount | 5 | Total record count (number of array items in data) 
+| columns |  | Object describing columns in document 
+|====================
+
+[,javascript]
+----
+{
+    "startTime": "<startTime>",
+    "endTime": "<endTime>",
+    "recordCount": 0,
+    "columns": {}
+}
+----
+
+#### Header Columns
+
+Het object header-kolommen bevat kolomindexsleutels die overeenkomen met de overeenkomstige kolomindex in het object recordvelden. De toewijzing van kolomindexen is over het algemeen gebaseerd op nul (de eerste index is 0).
+
+.JTS Header Columns
+[width="100%",options="header"]
+|====================
+| Column Attribute | Example | Description 
+| id | 541a5a129bc9b4035f906d70 | Unique identifier of resource (usually its _id) 
+| name | Temperature | Name of resource or node 
+| dataType | NUMBER | Data type of associated node. [NUMBER, TEXT, TIME, COORDINATES] Note: if ‘renderType’ is STATE the data in this document will be String. 
+| renderType | VALUE | Rendering of ‘v’ attribute in records. [VALUE, STATE] 
+| format | 0.### | Format of the value. 
+| aggregate | NONE | Historic aggregate applied to data. Default is NONE
+| baseTime | D | Base Time used for aggregation 
+| interval | 1H | Interval used for aggregation 
+|====================
+
+[,javascript]
+----
+{
+    "0": {
+        "id": "<id>",
+        "name": "<name>",
+        "dataType": "<dataType>",
+        "format": "<format>",
+        "aggregate": "<aggregate>",
+        "baseTime": "<baseTime>",
+        "interval": "<interval>"
+    },
+    "1": {},
+    "2": {}
+}
+----
+
+#### Data
+
+Het gegevensattribuut bevat een array van records. Elke record bevat een 'ts' ISO8601 tijdstempel en een 'f' veldenobject dat waarde-, kwaliteits- en annotatieattributen kan bevatten voor een of meer kolommen (met kolomindex als sleutel). De records moeten chronologisch worden gesorteerd op tijdstempel.
+
+.JTS Data
+[width="100%",options="header"]
+|====================
+| Record Attribute | Example | Description 
+| ts | 2018-08-16T02:00:00.000Z | Required. ISO8601 timestamp of data point(s) 
+| f | | Required. Object containing data for 1 or more columns (using column index as key)
+| v | 10.4 | Optional. Value of column for the corresponding record timestamp Data type should match dataType option in header 
+| q | 100 | Optional. Quality code associated with data value for this column
+| a | site maintenance | Optional. Annotation text associated with data point
+|====================
+
+[,javascript]
+----
+[
+    {
+        "ts": "<ts>",
+        "f": {
+            "0": {"v": 10.4, "q": 100, "a": "site maintenance"},
+            "1": {"v": 55}
+            "2": {"a": "sensor recalibrated"}
+        }
+    },
+    {
+        "ts": "<ts>",
+        "f": { "0": {"v": 12, "q": 100}, "1": {"v": 55, "q": 100} }
+    }
+]
+----
+
+[NOTE]
+====
+Het 'f'-veldenobject kan summier worden ingevuld door alleen kolommen op te nemen die gegevens hebben voor het bijbehorende recordtijdstempel.
+====
+
+#### Data Types
+
+JTS ondersteunt zowel eenvoudige als complexe datatypes. Complexe gegevenstypen worden altijd ingekapseld in een JSON-object met de sleutel voorafgegaan door '$'. Bij het invoegen van historische gegevens MOET het gegevenstype overeenkomen met het parametertype. TIJD-gegevens worden bijvoorbeeld alleen geaccepteerd op Tijd-parameters. Gegevens die zijn geëxporteerd met renderType 'STATE' hebben altijd een String-indeling. De volgende gegevenstypen worden ondersteund in het waardeveld 'v' van een recordkolom:
+
+.JTS Data Types
+[width="100%",options="header"]
+|====================
+| Data Type |Accepted Parameter Type  | Format | Example 
+| NUMBER | Number parameters | Number | 24.5 
+| TIME | Time parameters | {“$time”: “ISO8601”} | {“$time”: “2014-08-16T02:00:00Z”} 
+| COORDINATES | Locations | {“$coords”: [<latitude>, <longitude>]} | {“$coords”: [-33.86785, 151.20732]} 
+| TEXT | Text parameters | String | "valve open"  
+|====================
+
+[NOTE]
+====
+Het recordveld 'ts' kan worden uitgedrukt als een eenvoudige ISO8601-tijdstempel in plaats van het complexe gegevenstype TIME.
+====

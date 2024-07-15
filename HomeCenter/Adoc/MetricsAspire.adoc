@@ -1,0 +1,366 @@
+image::../images/Image-020724-020333.391.png[]
+
+## Inleiding 
+
+OpenTelemetry biedt een verzameling gereedschappen, API's en bibliotheken om toepassingen te instrumenteren voor het verzamelen van telemetriegegevens. Het standaardiseert het genereren, verzamelen en exporteren van telemetriegegevens uit verschillende bronnen, wat de analyse en het begrip van het gedrag van uw toepassingen vergemakkelijkt. Het ondersteunt meerdere programmeertalen, waaronder .NET, en integreert met verschillende telemetrie backends, zoals Azure Monitor, Prometheus, Jaeger en meer.
+
+
+OpenTelemetry verzamelt verschillende soorten telemetriegegevens, bekend als signalen, van je applicaties. De drie belangrijkste soorten signalen zijn: 
+
+- Traces 
+- Metrics 
+- Logs
+
+### Traces 
+
+Traces geven de stroom van een bewerking of verzoek door je applicatie weer. Ze geven gedetailleerde informatie over het uitvoeringspad, inclusief timing, duur en metagegevens die bij elke stap horen. Traces helpen de prestaties van individuele verzoeken te begrijpen en knelpunten of problemen in het gedrag van je applicatie te identificeren.  
+
+### Metriek 
+
+Metriek geeft de toestand of het gedrag van je applicatie weer in de loop van de tijd door middel van numerieke metingen. Voorbeelden van statistieken zijn het aantal verzoeken per seconde, responstijden, foutpercentages en geheugengebruik. Metrieken worden met regelmatige tussenpozen verzameld om te controleren, waarschuwen en trends of patronen in het gedrag van je applicatie te identificeren.  
+
+### Logs 
+
+Dit zijn tekstuele records van gebeurtenissen of berichten die door uw applicatie worden gegenereerd, inclusief diagnostische informatie, foutmeldingen of andere relevante gegevens. Logs bieden context en inzichten wanneer ze samen met traces en metrics worden geanalyseerd.
+
+
+## Opzet
+
+* OpenTelemetry.Extensions.Hosting installeren en verpakken
+
+* Open Program.cs en voeg de volgende regel toe om OpenTelemetry toe te voegen
+
+[,csharp]
+----
+builder.Services.AddOpenTelemetry();
+builder.Logging.AddOpenTelemetry();
+----
+
+*  Installeer OpenTelemetry.Instrumentation.AspNetCore en OpenTelemetry.Instrumentation.Runtime pakketten
+
+* Configureer Tracing en Metrics met de volgende code:
+
+[,csharp]
+----
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =>
+    {
+      tracing.AddAspNetCoreInstrumentation();
+    })
+    .WithMetrics(metrics =>
+    {
+      metrics.AddAspNetCoreInstrumentation()
+      .AddRuntimeInstrumentation();
+    })
+    .UseOtlpExporter();
+----
+
+*  Installeer OpenTelemetry.Exporter.Console om de uitvoer te zien en werk Program.cs als volgt bij
+
+[,csharp]
+----
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =>
+    {
+      tracing.AddAspNetCoreInstrumentation();
+      tracing.AddConsoleExporter();
+    })
+    .WithMetrics(metrics =>
+    {
+      metrics.AddAspNetCoreInstrumentation()
+     .AddRuntimeInstrumentation()
+     .AddConsoleExporter();
+    });
+
+builder.Logging.AddOpenTelemetry(logging =>
+{
+  logging.AddConsoleExporter();
+});
+----
+
+* Als u de applicatie uitvoert en een willekeurig eindpunt aanroept, zult u de volgende uitvoer zien:
+
+image::../images/Image-020724-022454.012.png[]
+
+* Om het te exporteren in standaard OpenTelemetry formaat, installeer je OpenTelemetry.Exporter.OpenTelemetryProtocol pakket van Nuget.
+
+* Voeg ten slotte OTEL_EXPORTER_OTLP_ENDPOINT toe aan je omgevingsvariabelen en vervang deze door de volgende code:
+
+[,csharp]
+----
+builder.Services.AddOpenTelemetry()
+.WithTracing(tracing =>
+{
+tracing.AddAspNetCoreInstrumentation();
+})
+.WithMetrics(metrics =>
+{
+metrics.AddAspNetCoreInstrumentation()
+.AddRuntimeInstrumentation();
+})
+.UseOtlpExporter();
+----
+
+Het bewaken van de prestaties en het gedrag van applicaties is cruciaal voor het handhaven van de betrouwbaarheid en het garanderen van een soepele gebruikerservaring. Met aangepaste statistieken kunnen ontwikkelaars inzicht krijgen in specifieke aspecten van hun applicaties, waardoor problemen proactief kunnen worden opgespoord en weloverwogen beslissingen kunnen worden genomen. 
+
+In deze blogpost zullen we onderzoeken hoe we aangepaste statistieken kunnen integreren in een .NET toepassing met behulp van OpenTelemetry. We behandelen de best practices voor het definiëren en vastleggen van metrics, laten de implementatie van verschillende metric-typen zien en schrijven er tests voor. Of je nu de observeerbaarheid wilt verbeteren of de prestaties wilt optimaliseren, deze gids zal je helpen om je .NET applicaties effectief te instrumenteren. 
+
+In de vorige post hebben we gezien hoe je OpenTelemetry ondersteuning toevoegt aan .Net applicaties, in deze post zullen we er aangepaste metrics aan toevoegen terwijl je .Net Built-in metrics en ASP.NET Built-in metrics hebt. System.Diagnostics.Metrics stelt ook IMeterFactory ter beschikking om je eigen aangepaste metric te schrijven, aangepast aan je specifieke use case. 
+
+Dat is alles wat nodig is voor het configureren van Open Telemetry in Asp.Net toepassingen. Je kunt het eindpunt configureren voor een backend naar keuze, zoals Jaeger, Prometheus, Application Insights, Zipkin, Datadog, enz.
+
+[TIP]
+====
+Tip: U kunt de uitvoer visualiseren en bevestigen of het lokaal werkt met Aspire Dashboard.
+====
+
+## Azure
+
+Azure Functions apps gebruiken standaard een eigen formaat voor het verzenden van telemetrie naar applicatie-inzichten, maar je kunt het configureren om OpenTelmetery formaat te gebruiken om het backend agnostisch te maken door onderstaande stappen te volgen: 
+
+1. Werk het bestand host.json bij door "telemetryMode": "openTelemetry", waarna het er als volgt uitziet:
+
+[,javascript]
+----
+{
+    "version": "2.0",
+    "logging": {
+      "applicationInsights": {
+        "samplingSettings": {
+          "isEnabled": true,
+          "excludedTypes": "Request"
+        },
+      "enableLiveMetricsFilters": true
+      }
+    },
+  "telemetryMode": "openTelemetry"
+}
+----
+
+2. Werk de OTEL_EXPORTER_OTLP_ENDPOINT omgevingsvariabele bij en wijs deze naar het backend van je keuze.
+
+Je kunt deze https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/ raadplegen voor meer configuratieopties.
+
+3.  Voeg deze pakketten toe aan je applicatie:
+
+[,cmd]
+----
+Microsoft.Azure.Functions.Worker.OpenTelemetry
+OpenTelemetry.Extensions.Hosting
+OpenTelemetry.Exporter.OpenTelemetryProtocol
+----
+
+[NOTE]
+====
+Microsoft.Azure.Functions.Worker.OpenTelemetry is op het moment van schrijven nog in early preview, maar hopelijk komt er snel een stabiele release.
+====
+
+Configureer het nu in Program.cs binnen ConfigureServices delegate als volgt:
+
+[,csharp]
+----
+services.AddOpenTelemetry()
+.UseFunctionsWorkerDefaults()
+.UseOtlpExporter();
+----
+
+Je kunt het net zo configureren als we eerder voor Asp.Net hebben gedaan en meer instrumentaties toevoegen, afhankelijk van je behoeften.
+
+Door OpenTelemetry te integreren in uw Asp.Net en Azure Function applicaties kunt u telemetriegegevens verzamelen, analyseren en begrijpen. Door de beschreven stappen te volgen, kunt u OpenTelemetry eenvoudig instellen om traces, metrics en logs te verzamelen, waardoor u waardevolle inzichten krijgt in de prestaties en het gedrag van uw applicaties. Dit maakt beter geïnformeerde beslissingen mogelijk over optimalisatie, probleemoplossing en capaciteitsplanning. Met OpenTelemetry's gestandaardiseerde aanpak en brede ondersteuning voor verschillende backends, kunt u zorgen voor een consistente en uitgebreide monitoringoplossing voor al uw systemen.
+
+## Vereisten
+
+* Een bestaand .Net Web Api Project 
+* Begrip van de basisprincipes van Metrics en OpenTelemetry integratie
+
+[,csharp]
+----
+public class TodoMetrics
+{
+
+  public const string MeterName = "Todo.Api";
+  private readonly Counter _todoRequestCounter;
+
+  public TodoMetrics(IMeterFactory meterFactory)
+  {
+    var meter = meterFactory.Create(MeterName);
+    _todoRequestCounter = meter.CreateCounter("todo.api.todo_requests.count");
+
+  }
+
+  public void IncrementTodoRequestCount()
+  {
+    _todoRequestCounter.Add(1);
+  }
+}
+----
+
+Hier declareren we de naam van de meter die in het dashboard wordt weergegeven en maken we een eenvoudige teller om het aantal requests bij te houden. De IMeterFactory wordt geïnjecteerd met behulp van DI die we in de volgende stappen zullen instellen.
+
+Vervolgens registreren we de services en onze aangepaste TodoMetrics-klasse in DI binnen Program.cs
+
+[,csharp]
+----
+  builder.Services.AddMetrics();
+  builder.Services.AddSingleton();
+----
+
+Voeg onze aangepaste meteric toe zoals hieronder:
+
+[,csharp]
+----
+builder.Services.AddOpenTelemetry()
+  .WithMetrics(metrics =>
+  {
+    metrics
+    .AddAspNetCoreInstrumentation()
+    .AddHttpClientInstrumentation()
+    .AddRuntimeInstrumentation()
+    .AddMeter("Todo.Api");
+  })
+  .WithTracing(tracing =>
+  {
+    tracing.AddAspNetCoreInstrumentation()
+    .AddHttpClientInstrumentation();
+  });
+----
+
+Om alles in actie te zien, starten we ons project dat het Aspire dashboard start waar we onze statistieken kunnen visualiseren. Dit is eenvoudig in te stellen en biedt een snelle dev loop om dit soort dingen te implementeren.
+
+
+image::../images/Image-020724-020811.964.png[]
+
+Vervolgens voegen we een histogram toe aan onze aangepaste statistieken. In TodoMetrics.cs declareren we een nieuw privé veld _todoRequestDuration met Histogram als type.
+En instantieer het in de constructor als volgt:
+
+[,csharp]
+----
+_todoRequestDuration = meter.CreateHistogram("todo.api.todo_requests.duration", "ms", "Total duration of request");
+----
+
+Maak een nieuwe klasse TrackRequestDuration die IDisposable implementeert zoals hieronder:
+
+[,csharp]
+----
+public class TrackedRequestDuration : IDisposable
+{
+  private readonly long _requestStartTime = Stopwatch.GetTimestamp();
+  private readonly Histogram _requestDuration;
+
+  public TrackedRequestDuration(Histogram requestDuration)
+  {
+  _requestDuration = requestDuration;
+  }
+
+  public void Dispose()
+  {
+    var elapsed = Stopwatch.GetElapsedTime(_requestStartTime);
+    _requestDuration.Record(elapsed.TotalMilliseconds);
+  }
+}
+----
+
+Maak tenslotte een nieuwe methode MeasureRequestDuration als volgt:
+
+[,csharp]
+----
+public TrackedRequestDuration MeasureRequestDuration()
+{
+  return new TrackedRequestDuration(_todoRequestDuration);
+}
+----
+
+Deze nieuwe metriek kan als volgt worden gebruikt in onze api:
+
+[,csharp]
+----
+app.MapPost("todo", (Todo todo, TodoMetrics todoMetrics) =>
+{
+  using var _ = todoMetrics.MeasureRequestDuration();
+  todoList.Add(todo);
+
+  todoMetrics.IncrementTodoRequestCount();
+
+  return Results.Ok();
+});
+----
+
+En dit alles wordt als een mooie grafiek weergegeven in het dashboard met verschillende percentiel latenties, zoals hieronder:
+
+image::../images/Image-020724-021031.571.png[]
+
+Daarnaast wil je misschien andere instrumenten onderzoeken, zoals UpDownCounter, ObservableCounter, ObservableUpDownCounter en ObservableGauge. Je kunt meer lezen over hun verschillen in de documentatie.  Testen van aangepaste statistieken 1. Ervan uitgaande dat u al een Unit Test project hebt opgezet, installeert u Microsoft.Extensions.Diagnostics.Testing pakket van NuGet
+
+image::../images/Image-020724-021103.991.png[]
+
+Voeg ook een verwijzing naar het Api-project toe in uw Unit Test-project. 2. Schrijf een testmethode als volgt:
+
+[,csharp]
+----
+public class CustomMetricsTests
+{
+  [Fact]
+  public void TodoRequestsCounter()
+  {
+    // Arrange
+    var services = CreateServiceProvider();
+    var metrics = services.GetRequiredService();
+    var meterFactory = services.GetRequiredService();
+    var collector = new MetricCollector(meterFactory, "Todo.Api", "todo.api.todo_requests.count");
+
+    // Act
+    metrics.IncrementTodoRequestCount();
+
+    // Assert
+    var measurements = collector.GetMeasurementSnapshot();
+    Assert.Equal(1, measurements.Count);
+  }
+
+  private static IServiceProvider CreateServiceProvider()
+  {
+    var serviceCollection = new ServiceCollection();
+    serviceCollection.AddMetrics();
+    serviceCollection.AddSingleton();
+    return serviceCollection.BuildServiceProvider();
+  }
+}
+----
+
+Hier gebruiken we een DI-benadering om Metrics toe te voegen aan ServiceCollection. Vervolgens instantiëren we onze meter met behulp van IMeterFactory en vervolgens wordt MetricCollector gebruikt om de metriek op te slaan en er uiteindelijk tegen te asserteren. In dit geval hebben we een eenvoudige teller, maar het kan complexer zijn, afhankelijk van je vereisten.
+
+image::../images/Image-020724-021145.969.png[]
+
+## Best practices voor testen
+
+* Meter initialisatie:
+- Maak voor niet-DI-code een statische Meter.
+- Vermijd statische Meters in DI-bewuste code; gebruik DI om de levensduur van Meters te beheren.
+- Gebruik unieke, hiërarchische namen voor Meters (bijvoorbeeld "MyApp.Metrics").
+* Naamgevingsconventies:
+- Volg de OpenTelemetry richtlijnen met kleine letters, gestippelde hiërarchische namen.
+- Voorbeeld: "myapp.request.duration".
+* Thread-veiligheid:
+- Instrument-API's zijn thread-safe, dus er is geen extra synchronisatie nodig voor metrische registratie.
+* Prestaties:
+- Instrumentopname is efficiënt, maar wees voorzichtig in extreem prestatiegevoelige code.
+* Wegwerp Meters
+- Meters worden automatisch verwijderd door DI containers; het is niet nodig om ze handmatig te verwijderen.
+* Instrumenttypen kiezen:
+- Teller/ObservableCounter: Voor waarden die alleen toenemen.
+- Histogram: Voor het meten van looptijden of verdelingen.
+- UpDownCounter/ObservableUpDownCounter: Voor waarden die kunnen stijgen of dalen.
+* Geheugengebruik:
+- Histogrammen kunnen meer geheugen gebruiken; bieden richtlijnen voor het beheren van veel histogrammetriek.
+* Waarneembare instrument callbacks:
+- Zorg ervoor dat callbacks snel zijn en geen blokkerende operaties uitvoeren.
+* Synchronisatie voor waarneembare instrumenten:
+- Synchroniseer geheugentoegang of gebruik methoden zoals Volatile.Read en Volatile.Write.
+* Naamgeving van eenheden:
+- Gebruik UCUM standaarden voor eenheden, bijv. "{requests}" voor beschrijvende annotaties.
+
+## Conclusie
+
+Het integreren van aangepaste metrics in je .NET Todo applicatie met OpenTelemetry biedt krachtige inzichten in de prestaties en het gedrag van je applicatie. Door best practices te volgen voor het definiëren, vastleggen en taggen van metrics, kun je nauwkeurige en zinvolle monitoring garanderen. Dit helpt niet alleen bij het proactief identificeren en oplossen van problemen, maar verbetert ook de algehele betrouwbaarheid en gebruikerservaring van uw applicatie. Met de gedetailleerde stappen en voorbeelden die worden gegeven, ben je nu in staat om effectieve observability te implementeren in je .NET projecten, zodat je datagestuurde beslissingen kunt nemen en de prestaties efficiënt kunt optimaliseren.
+
+
+
