@@ -1,0 +1,17 @@
+<UserControl x:Class="AvaloniaSample.Axes.Multiple.View"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:vms="using:ViewModelsSamples.Axes.Multiple">
+  <UserControl.DataContext>
+    <vms:ViewModel/>
+  </UserControl.DataContext>
+  <lvc:CartesianChart
+    Series="{Binding Series}"
+    YAxes="{Binding YAxes}"
+    LegendPosition="Left"
+    LegendTextPaint="{Binding LegendTextPaint}"
+    LegendBackgroundPaint="{Binding LedgendBackgroundPaint}"
+    LegendTextSize="16">
+  </lvc:CartesianChart>
+</UserControl>

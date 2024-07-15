@@ -1,0 +1,13 @@
+﻿@page "/General/VisualElements"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using ViewModelsSamples.General.VisualElements
+
+<CartesianChart
+	Series="ViewModel.Series"
+	VisualElements="ViewModel.VisualElements"
+    ZoomMode="LiveChartsCore.Measure.ZoomAndPanMode.X">
+</CartesianChart>
+
+@code {
+	public ViewModel ViewModel { get; set; } = new();
+}

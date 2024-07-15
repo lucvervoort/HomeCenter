@@ -1,0 +1,19 @@
+﻿@page "/Bars/Race"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using ViewModelsSamples.Bars.Race
+
+<CartesianChart
+	Series="ViewModel.Series"
+    XAxes="ViewModel.XAxes"
+    YAxes="ViewModel.YAxes"
+    TooltipPosition="LiveChartsCore.Measure.TooltipPosition.Hidden">
+</CartesianChart>
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+
+    public ViewModel ViewModel { get; set; } = new();
+}

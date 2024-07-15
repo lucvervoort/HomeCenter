@@ -1,0 +1,68 @@
+﻿@page "/General/ChartToImage"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using LiveChartsCore.SkiaSharpView.SKCharts
+@using ViewModelsSamples.General.ChartToImage
+
+<h1>There are missing features in this sample...</h1>
+
+<div style="max-height: 400px">
+	<CartesianChart
+		@ref="_cartesianChart"
+		Series="ViewModel.CatesianSeries">
+	</CartesianChart>
+</div>
+
+<div style="max-height: 400px">
+	<PieChart
+		@ref="_pieChart"
+		Series="ViewModel.PieSeries">
+	</PieChart>
+</div>
+
+<div style="max-height: 400px">
+	<GeoMap
+		@ref="_mapChart"
+		Series="ViewModel.GeoSeries">
+	</GeoMap>
+</div>
+
+@code {
+	private CartesianChart _cartesianChart = null!;
+	private PieChart _pieChart = null!;
+	private GeoMap _mapChart = null!;
+
+	public ViewModel ViewModel { get; set; } = new();
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+
+		// in this case when the view is rendered // mark
+        // we build our charts controls as images // mark
+		CreateImageFromCartesianControl();
+		CreateImageFromPieControl();
+		CreateImageFromGeoControl();
+	}
+
+	private void CreateImageFromCartesianControl()
+	{
+		// you can take any chart in the UI, and build an image from it // mark
+		var chartControl = _cartesianChart;
+		var skChart = new SKCartesianChart(chartControl) { Width = 900, Height = 600, };
+		skChart.SaveImage("CartesianImageFromControl.png");
+	}
+
+	private void CreateImageFromPieControl()
+	{
+		var chartControl = _pieChart;
+		var skChart = new SKPieChart(chartControl) { Width = 900, Height = 600, };
+		skChart.SaveImage("PieImageFromControl.png");
+	}
+
+	private void CreateImageFromGeoControl()
+	{
+		var chartControl =  _mapChart;
+		var skChart = new SKGeoMap(chartControl) { Width = 900, Height = 600, };
+		skChart.SaveImage("MapImageFromControl.png");
+	}
+}

@@ -1,0 +1,14 @@
+﻿@page "/Polar/Basic"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using ViewModelsSamples.Polar.Basic
+
+<PolarChart
+	Series="ViewModel.Series"
+    RadiusAxes="ViewModel.RadialAxes"
+    AngleAxes="ViewModel.AngleAxes"
+    Title="ViewModel.Title">
+</PolarChart>
+
+@code {
+	public ViewModel ViewModel { get; set; } = new();
+}

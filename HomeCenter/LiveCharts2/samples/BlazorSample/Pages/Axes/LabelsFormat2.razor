@@ -1,0 +1,35 @@
+﻿@page "/Axes/LabelsFormat2"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using LiveChartsCore;
+@using LiveChartsCore.SkiaSharpView;
+@using SkiaSharp;
+@using ViewModelsSamples.Axes.LabelsFormat2
+@inject HttpClient Http;
+
+<CartesianChart
+	Series="ViewModel.Series"
+	XAxes="ViewModel.XAxes"
+	YAxes="ViewModel.YAxes">
+</CartesianChart>
+
+@code {
+    public ViewModel ViewModel { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        // On .net7, SkiaSharp 2.88.6 and SkiaSharp.HarfBuzz 2.88.6 the MatchCharacter does not load the font.
+        // The MatchCharacter function loads a font from the system,
+        // it seems that on WASM we must load the font manually.
+
+        // In this case, the font was added to the wwwroot folder, then we load it using the HTTPClient
+        // This is only necessary once, ideally when the app starts.
+
+        using var stream = await Http.GetStreamAsync("NotoSansSC-Regular.otf");
+        var typeface = SKTypeface.FromStream(stream);
+
+        LiveCharts.Configure(config => // mark
+            config // mark
+                .UseDefaults() // mark
+                .HasGlobalSKTypeface(typeface)); // mark
+    }
+}

@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>11.0</LangVersion>
+
+    <TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">
+      $(TargetFrameworks);net8.0-windows10.0.22621.0
+    </TargetFrameworks>
+
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net8.0-ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net8.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net8.0-android'">23.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.22621.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.22621.0</TargetPlatformMinVersion>
+
+    <AssemblyName>LiveChartsCore</AssemblyName>
+    <RootNamespace>LiveChartsCore</RootNamespace>
+    <Version>2.0.0-rc2</Version>
+    <PackageIcon>icon.png</PackageIcon>
+    <Description>Simple, flexible, interactive and powerful data visualization for .Net, this is the core package probably you need another package also unless you are building your own backed.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>BetoRodriguez</Authors>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/beto-rodriguez/LiveCharts2</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Geo\world-robinson.geojson" />
+    <None Remove="Geo\world.geojson" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Geo\world.geojson">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="images\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

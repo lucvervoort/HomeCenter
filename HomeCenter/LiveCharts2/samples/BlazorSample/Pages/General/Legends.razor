@@ -1,0 +1,21 @@
+﻿@page "/General/Legends"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using ViewModelsSamples.General.Legends
+
+<h2>@ViewModel.Position</h2>
+
+<select @bind="ViewModel.Position">
+	@foreach(var option in ViewModel.Positions)
+	{
+		<option value="@option.Position">@option.Name</option>
+	}
+</select>
+
+<CartesianChart
+	Series="ViewModel.Series"
+	LegendPosition="ViewModel.Position">
+</CartesianChart>
+
+@code {
+	public ViewModel ViewModel { get; set; } = new();
+}

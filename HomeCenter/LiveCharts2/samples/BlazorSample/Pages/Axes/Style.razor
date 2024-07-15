@@ -1,0 +1,18 @@
+﻿@page "/Axes/Style"
+@using LiveChartsCore.SkiaSharpView.Blazor
+@using ViewModelsSamples.Axes.Style
+
+<div style="background-color: #333333; padding: 20px">
+    <CartesianChart
+        Series="ViewModel.Series"
+        XAxes="ViewModel.XAxes"
+        YAxes="ViewModel.YAxes"
+        DrawMarginFrame="ViewModel.Frame"
+        ZoomMode="LiveChartsCore.Measure.ZoomAndPanMode.Both"
+        TooltipPosition="LiveChartsCore.Measure.TooltipPosition.Hidden">
+    </CartesianChart>
+</div>
+
+@code {
+	public ViewModel ViewModel { get; set; } = new();
+}
