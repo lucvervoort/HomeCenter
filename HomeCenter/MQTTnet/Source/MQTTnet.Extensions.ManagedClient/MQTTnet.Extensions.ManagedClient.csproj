@@ -41,7 +41,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MQTTnet\MQTTnet.csproj" />
+      <ProjectReference Include="..\MQTTnet\MQTTnet.csproj" />
     </ItemGroup>
 
     <ItemGroup>
