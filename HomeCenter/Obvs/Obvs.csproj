@@ -11,7 +11,7 @@
     <Description>An observable microservice bus .NET library, based on Reactive Extensions. Search 'Obvs' for other transport, serialization, and logging extensions.</Description>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'net472' ">
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Reactive" Version="6.0.1" />
