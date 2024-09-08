@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="help" targetNamespace="http://canna/help.xsd" elementFormDefault="qualified" xmlns="http://canna/help.xsd" xmlns:mstns="http://canna/help.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Predicates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Predicate" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PredicateIndicator">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Functor" type="xs:string" />
+                    <xs:element name="Arity" type="xs:short" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Arguments" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Argument" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Name" type="xs:string" />
+                          <xs:element name="Direction">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:enumeration value="In" />
+                                <xs:enumeration value="Out" />
+                                <xs:enumeration value="Both" />
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Description" type="xs:string" />
+              <xs:element name="LongDesc" type="xs:string" minOccurs="0" />
+              <xs:element name="Samples" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Sample" type="xs:string" maxOccurs="unbounded" minOccurs="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

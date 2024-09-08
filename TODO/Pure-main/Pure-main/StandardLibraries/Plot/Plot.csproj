@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<VersionPrefix>0.0.1</VersionPrefix>
+		<Nullable>disable</Nullable>
+		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<RootNamespace>Graphing</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.8" />
+		<PackageReference Include="ScottPlot" Version="5.0.36" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Core.csproj" />
+		<ProjectReference Include="..\CLI\CLI.csproj" />
+	</ItemGroup>
+</Project>

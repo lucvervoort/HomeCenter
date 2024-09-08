@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Predicates xmlns="http://canna/help.xsd">
+  <Predicate>
+    <PredicateIndicator>
+      <Functor>dynamic</Functor>
+      <Arity>1</Arity>
+    </PredicateIndicator>
+    <Arguments>
+      <Argument>
+        <Name>PI</Name>
+        <Direction>In</Direction>
+      </Argument>
+    </Arguments>
+    <Description>
+      PI is a predicate indicator.
+      The corresponding predicate is marked as dynamic. The predicates abolish/1, clause/2, asserta/1, assertz/1 and retract/1 may be applied to these predicates without raising a permission_error.
+    </Description>
+  </Predicate>
+  <Predicate>
+    <PredicateIndicator>
+      <Functor>multifile</Functor>
+      <Arity>1</Arity>
+    </PredicateIndicator>
+    <Arguments>
+      <Argument>
+        <Name>PI</Name>
+        <Direction>In</Direction>
+      </Argument>
+    </Arguments>
+    <Description>Currently it has no effect.</Description>
+  </Predicate>
+  <Predicate>
+    <PredicateIndicator>
+      <Functor>op</Functor>
+      <Arity>3</Arity>
+    </PredicateIndicator>
+    <Arguments>
+      <Argument>
+        <Name>Priority</Name>
+        <Direction>In</Direction>
+      </Argument>
+      <Argument>
+        <Name>OpSpecifier</Name>
+        <Direction>In</Direction>
+      </Argument>
+      <Argument>
+        <Name>Operator</Name>
+        <Direction>In</Direction>
+      </Argument>
+    </Arguments>
+    <Description>It is true, with the side effect that if Priority is 0 then Operator is removed from the operator table, else
+Operator is added to the Operator table, with priority (lower binds tighter) Priority and associativity determined by Op_Specifier according to the rules:
+
+Specifier Type Associativity
+
+fx        prefix    no
+fy        prefix    yes
+xf        postfix   no
+yf        postfix   yes
+xfx       infix     no
+yfx       infix     left
+xfy       infix     right
+
+
+It is forbidden to alter the priority or type of ','. It is forbidden to have an infix and a postfix operator with the same name, or two operators with the same class and name.
+
+The initial operator table is given by
+
+
+    Priority Specifier Operator(s)
+    1200        xfx     :- --&gt;
+    1200        fx      :- ?-
+    1100        xfy     ;
+    1050        xfy     -&gt;
+    1000        xfy     ','
+    900         fy      \+
+    700         xfx     = \=
+    700         xfx     == \== @&lt; @=&lt; @&gt; @&gt;=
+    700         xfx     =..
+    700         xfx     is =:= =\= &lt; =&lt; &gt;=; &gt;=
+    500         yfx     + - /\ \/
+    400         yfx     * / // rem mod &lt;&lt; &gt;&gt;
+    200         xfx     **
+    200         xfy     ^
+    200         fy      - \
+      </Description>
+  </Predicate>
+  <Predicate>
+    <PredicateIndicator>
+      <Functor>call</Functor>
+      <Arity>1</Arity>
+    </PredicateIndicator>
+    <Arguments>
+      <Argument>
+        <Name>Goal</Name>
+        <Direction>In</Direction>
+      </Argument>
+    </Arguments>
+    <Description>Invoke  Goal as a  goal.</Description>
+  </Predicate>
+  
+</Predicates>

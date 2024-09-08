@@ -25,6 +25,24 @@ using System.Data;
 
 internal partial class Program
 {
+    /*
+        var cts = new CancellationTokenSource();    
+        RecurringTask(() => Console.WriteLine("Hello again!"), 4, cts.Token);
+     */
+
+    internal static void RecurringTask(Action action, int seconds, CancellationToken token)
+    {
+        if (action == null)
+            return;
+        Task.Run(async () => {
+            while (!token.IsCancellationRequested)
+            {
+                action();
+                await Task.Delay(TimeSpan.FromSeconds(seconds), token);
+            }
+        }, token);
+    }
+
     internal sealed class ConsoleHostedService : IHostedService
     {
         private readonly ILogger _logger;
@@ -41,6 +59,9 @@ internal partial class Program
 
         private IManagedMqttClient _managedMqttClient;
         private readonly Dictionary<string, string> _deviceNames = [];
+
+        private readonly Dictionary<string, decimal> _currentDeviceLightLevel = [];
+        private readonly Dictionary<string, decimal> _currentDeviceTemperature = [];
 
         public ConsoleHostedService(
             ILogger<ConsoleHostedService> logger,
@@ -103,24 +124,27 @@ internal partial class Program
                             {
                                 case "light_level":
                                     data.ExtensionData["light"].GetProperty("light_level").TryGetDecimal(out decimal l);
+                                    var lightLevelAsJTSTimeSeries = ToJTSTimeSeries("LightLevel", l, loc, data.IdV1, data.CreationTime, dn);
+                                    _currentDeviceLightLevel[dn] = l;
                                     _logger.LogDebug($"{loc}: light level {l} on /{loc}{data.IdV1} ({dn})");
-                                    _managedMqttClient.EnqueueAsync("SensorGrid", $"{loc}: light level {l} on /{loc}{data.IdV1} ({dn})", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
+                                    _managedMqttClient.EnqueueAsync("SensorGrid", $"{lightLevelAsJTSTimeSeries}", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
                                     break;
                                 case "light":
+                                    var lightAsJTSTimeSeries = ToJTSTimeSeries("Light", 1, loc, data.IdV1, data.CreationTime, dn);
                                     _logger.LogDebug($"{_ipNames[bridgeIp]}: light on /{loc}{data.IdV1} ({dn})");
-                                    _managedMqttClient.EnqueueAsync("SensorGrid", $"{_ipNames[bridgeIp]}: light on /{loc}{data.IdV1} ({dn})", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
+                                    _managedMqttClient.EnqueueAsync("SensorGrid", $"{lightAsJTSTimeSeries}", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
                                     break;
                                 case "temperature":
                                     data.ExtensionData["temperature"].GetProperty("temperature").TryGetDecimal(out decimal t);
-
                                     var temperatureAsJTSTimeSeries = ToJTSTimeSeries("Temperature", t, loc, data.IdV1, data.CreationTime, dn);
-
+                                    _currentDeviceTemperature[dn] = t;
                                     _logger.LogDebug($"{temperatureAsJTSTimeSeries}");
                                     _managedMqttClient.EnqueueAsync("SensorGrid", $"{temperatureAsJTSTimeSeries}", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
                                     break;
                                 case "motion":
+                                    var motionAsJTSTimeSeries = ToJTSTimeSeries("Motion", 1, loc, data.IdV1, data.CreationTime, dn);
                                     _logger.LogDebug($"{loc}: motion on /{loc}{data.IdV1} ({dn})");
-                                    _managedMqttClient.EnqueueAsync("SensorGrid", $"{loc}: motion on /{loc}{data.IdV1} ({dn})", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
+                                    _managedMqttClient.EnqueueAsync("SensorGrid", $"{motionAsJTSTimeSeries}", qualityOfServiceLevel: MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce, retain: false);
                                     break;
                                 case "grouped_motion":
                                     // _logger.LogDebug($"{_ipNames[bridgeIp]}: grouped motion");
@@ -146,6 +170,30 @@ internal partial class Program
             jts.Header.Columns.H0.Id = Guid.NewGuid().ToString();
             switch (valueType)
             {
+                case "Light":
+                    jts.Header.Columns.H0.Name = "Light";
+                    jts.Header.Columns.H0.DataType = "NUMBER";
+                    jts.Header.Columns.H0.RenderType = "VALUE";
+                    jts.Header.Columns.H0.Format = "0.###";
+                    jts.Header.Columns.H0.Aggregate = "NONE";
+                    var l = new JTSData() { Ts = DateTime.Now };
+                    l.F.F0.Value = (double)v;
+                    l.F.F0.Quality = 100;
+                    l.F.F0.Annotation = dn;
+                    jts.Data.Add(l);
+                    break;
+                case "Motion":
+                    jts.Header.Columns.H0.Name = "Motion";
+                    jts.Header.Columns.H0.DataType = "NUMBER";
+                    jts.Header.Columns.H0.RenderType = "VALUE";
+                    jts.Header.Columns.H0.Format = "0.###";
+                    jts.Header.Columns.H0.Aggregate = "NONE";
+                    var m = new JTSData() { Ts = DateTime.Now };
+                    m.F.F0.Value = (double)v;
+                    m.F.F0.Quality = 100;
+                    m.F.F0.Annotation = dn;
+                    jts.Data.Add(m);
+                    break;
                 case "Temperature":
                     jts.Header.Columns.H0.Name = "Temperature";
                     jts.Header.Columns.H0.DataType = "NUMBER";
@@ -157,6 +205,18 @@ internal partial class Program
                     d.F.F0.Quality = 100;
                     d.F.F0.Annotation = dn;
                     jts.Data.Add(d);
+                    break;
+                case "LightLevel":
+                    jts.Header.Columns.H0.Name = "LightLevel";
+                    jts.Header.Columns.H0.DataType = "NUMBER";
+                    jts.Header.Columns.H0.RenderType = "VALUE";
+                    jts.Header.Columns.H0.Format = "0.###";
+                    jts.Header.Columns.H0.Aggregate = "NONE";
+                    var ll = new JTSData() { Ts = DateTime.Now };
+                    ll.F.F0.Value = (double)v;
+                    ll.F.F0.Quality = 100;
+                    ll.F.F0.Annotation = dn;
+                    jts.Data.Add(ll);
                     break;
             }
             var json = System.Text.Json.JsonSerializer.Serialize(jts);
@@ -257,6 +317,9 @@ internal partial class Program
                             localHueClientUpstairs.OnEventStreamMessage += EventStreamMessage;
                             localHueClientUpstairs.StartEventStream();
 
+                            var broadcastCancellationToken = new CancellationToken();
+                            RecurringTask(() => BroadcastCurrentMeasurements(), 60, broadcastCancellationToken);
+
                             _logger.LogInformation("Waiting for Hue Bridge events (press any key to stop)...");
                             //await Task.Delay(TimeSpan.FromHours(1));
                             Console.ReadLine();
@@ -282,6 +345,19 @@ internal partial class Program
             });
 
             return Task.CompletedTask;
+        }
+
+        internal void BroadcastCurrentMeasurements()
+        {
+            System.Diagnostics.Debug.WriteLine("Temporary dump: ");
+            foreach (var cll in _currentDeviceLightLevel)
+            {
+                System.Diagnostics.Debug.WriteLine(cll);
+            }
+            foreach(var ct in _currentDeviceTemperature)
+            {
+                System.Diagnostics.Debug.WriteLine(ct);
+            }
         }
 
         private void LinkDependentDevices(HueResponse<HueResource> resources)

@@ -1,0 +1,205 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BB6DCF27-8ED9-41EE-B7AB-080723C55203}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Canna.Prolog.Runtime</RootNamespace>
+    <AssemblyName>Canna.Prolog.Runtime</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>canna.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Builtins\DotNet\ObjectConverter.cs" />
+    <Compile Include="Builtins\Directives\char_conversion_2.cs" />
+    <Compile Include="Builtins\Directives\current_char_conversion_2.cs" />
+    <Compile Include="Builtins\Directives\current_prolog_flag.cs" />
+    <Compile Include="Builtins\Directives\set_prolog_flag_2.cs" />
+    <Compile Include="Builtins\DotNet\FXIntegration.cs" />
+    <Compile Include="Builtins\DotNet\create_obect_3.cs" />
+    <Compile Include="Builtins\DotNet\invoke_4.cs" />
+    <Compile Include="Builtins\DotNet\load_assembly_1.cs" />
+    <Compile Include="Builtins\DotNet\object_term_3.cs" />
+    <Compile Include="Builtins\DotNet\object_to_atom_2.cs" />
+    <Compile Include="Builtins\DotNet\TermConverter.cs" />
+    <Compile Include="Builtins\DynamicPredicates\current_predicate_1.cs" />
+    <Compile Include="Builtins\ExistenceObjectTypes.cs" />
+    <Compile Include="Builtins\IO\close_2.cs" />
+    <Compile Include="Builtins\IO\current_io.cs" />
+    <Compile Include="Builtins\IO\flush_output_1.cs" />
+    <Compile Include="Builtins\IO\get_char_2.cs" />
+    <Compile Include="Builtins\IO\open_4.cs" />
+    <Compile Include="Builtins\IO\put_byte.cs" />
+    <Compile Include="Builtins\IO\set_stream_position_2.cs" />
+    <Compile Include="Builtins\IO\stream_property_2.cs" />
+    <Compile Include="Builtins\IO\streambasepredicate.cs" />
+    <Compile Include="Builtins\Meta\load_files_2.cs" />
+    <Compile Include="Builtins\PrologFlags.cs" />
+    <Compile Include="Builtins\ReadWrite\write_term_3.cs" />
+    <Compile Include="Builtins\Recorded\erase_1.cs" />
+    <Compile Include="Builtins\Recorded\recorda.cs" />
+    <Compile Include="Builtins\Recorded\recorded.cs" />
+    <Compile Include="Builtins\Recorded\RecordedDB.cs" />
+    <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Help\help.cs">
+      <DependentUpon>help.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Help\HelpManager.cs" />
+    <Compile Include="Help\help_1.cs" />
+    <Compile Include="Objects\MultiClausePredicate.cs" />
+    <Compile Include="Objects\Numbers.cs" />
+    <Compile Include="Objects\Stream.cs" />
+    <Compile Include="Parser\CharConversionTable.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\Token.cs" />
+    <Compile Include="Parser\Tokenizer.cs" />
+    <Compile Include="PredicatesManagement\AssemblyCache.cs" />
+    <Compile Include="Builtins\AtomProcessing\atom_chars_2.cs" />
+    <Compile Include="Builtins\AtomProcessing\atom_concat_3.cs" />
+    <Compile Include="Builtins\AtomProcessing\atom_codes_2.cs" />
+    <Compile Include="Builtins\AtomProcessing\number_codes_2.cs" />
+    <Compile Include="Builtins\AtomProcessing\number_chars_2.cs" />
+    <Compile Include="Builtins\Directives\current_op_3.cs" />
+    <Compile Include="Builtins\DynamicPredicates\clause_2.cs" />
+    <Compile Include="Builtins\Directives\dynamic_1.cs" />
+    <Compile Include="Builtins\Directives\discontiguous_1.cs" />
+    <Compile Include="Builtins\DynamicPredicates\abolish_1.cs" />
+    <Compile Include="Builtins\DynamicPredicates\assert.cs" />
+    <Compile Include="Builtins\AtomProcessing\atom_length_2.cs" />
+    <Compile Include="Builtins\control\once_1.cs" />
+    <Compile Include="Builtins\control\repeat.cs" />
+    <Compile Include="Builtins\DynamicPredicates\retract_1.cs" />
+    <Compile Include="Builtins\Directives\multifile_1.cs" />
+    <Compile Include="Builtins\Directives\op_3.cs" />
+    <Compile Include="Builtins\AtomProcessing\sub_atom_5.cs" />
+    <Compile Include="Builtins\Permissions.cs" />
+    <Compile Include="Builtins\TermComposition\copy_term_2.cs" />
+    <Compile Include="Builtins\TermComposition\arg_3.cs" />
+    <Compile Include="Builtins\Arithmetic\NumberComparison.cs" />
+    <Compile Include="Builtins\Exceptions\catch_3.cs" />
+    <Compile Include="Builtins\control\Conjunction.cs" />
+    <Compile Include="Builtins\control\IfThenElse.cs" />
+    <Compile Include="Builtins\Exceptions\throw_1.cs" />
+    <Compile Include="Builtins\control\true_0.cs" />
+    <Compile Include="Builtins\TermComposition\functor_3.cs" />
+    <Compile Include="Builtins\Loading\consult_1.cs" />
+    <Compile Include="Builtins\IO\nl_0.cs" />
+    <Compile Include="Builtins\control\cut_0.cs" />
+    <Compile Include="Builtins\control\Disjunction.cs" />
+    <Compile Include="Builtins\control\fail_0.cs" />
+    <Compile Include="Builtins\Arithmetic\is_2.cs" />
+    <Compile Include="Builtins\control\not.cs" />
+    <Compile Include="Builtins\print_1.cs" />
+    <Compile Include="Builtins\Meta\types_1.cs" />
+    <Compile Include="Builtins\ReadWrite\read_term_2.cs" />
+    <Compile Include="Builtins\TermComparison.cs" />
+    <Compile Include="Builtins\Unification\not_unifiable_2.cs" />
+    <Compile Include="Builtins\Unification\unify_2.cs" />
+    <Compile Include="Builtins\Unification\unify_with_occur_check_2.cs" />
+    <Compile Include="Builtins\TermComposition\univ.cs" />
+    <Compile Include="Builtins\ValidTypes.cs" />
+    <Compile Include="Builtins\ValidDomains.cs" />
+    <Compile Include="Builtins\AtomProcessing\char_code_2.cs" />
+    <Compile Include="Compiler\ClauseGenerator.cs" />
+    <Compile Include="Compiler\ContinuationGenerator.cs" />
+    <Compile Include="Compiler\CompilerHelper.cs" />
+    <Compile Include="Compiler\ModuleGenerator.cs" />
+    <Compile Include="Compiler\PredicateGenerator.cs" />
+    <Compile Include="Compiler\PrologCompiler.cs" />
+    <Compile Include="Compiler\PrologProgram.cs" />
+    <Compile Include="Compiler\QueryProcessor.cs" />
+    <Compile Include="Compiler\TermCreationgenerator.cs" />
+    <Compile Include="Compiler\UnificationGenerator.cs" />
+    <Compile Include="Objects\Attributes.cs" />
+    <Compile Include="Objects\Clause.cs" />
+    <Compile Include="Builtins\control\call_1.cs" />
+    <Compile Include="Objects\DynamicPredicate.cs" />
+    <Compile Include="Objects\PrologList.cs" />
+    <Compile Include="Objects\TermComparer.cs" />
+    <Compile Include="Objects\Exceptions.cs" />
+    <Compile Include="Builtins\Arithmetic\ExpressionEvaluator.cs" />
+    <Compile Include="Objects\Interfaces.cs" />
+    <Compile Include="Objects\Operator.cs" />
+    <Compile Include="Builtins\Arithmetic\Calculator.cs" />
+    <Compile Include="Objects\Predicates.cs" />
+    <Compile Include="Objects\Term.cs" />
+    <Compile Include="PredicatesManagement\PredicateHelper.cs" />
+    <Compile Include="PredicatesManagement\PredicateInfo.cs" />
+    <Compile Include="PredicatesManagement\PredicateTable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Objects\Structures.cs" />
+    <Compile Include="Objects\TermList.cs" />
+    <Compile Include="Objects\Variable.cs" />
+    <Compile Include="Scripts\init.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>init.pl</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\PerformanceMeter.cs" />
+    <Compile Include="Utils\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="canna.snk" />
+    <None Include="Help\help.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Help\help.xsx">
+      <DependentUpon>help.xsd</DependentUpon>
+    </None>
+    <None Include="Scripts\findall.pl" />
+    <None Include="Scripts\init.pl">
+      <Generator>CannaPrologGenerator</Generator>
+      <LastGenOutput>init.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\lists.pl" />
+    <None Include="Scripts\sort.pl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="canna.prolog.runtime-help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Builtins\Writing\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

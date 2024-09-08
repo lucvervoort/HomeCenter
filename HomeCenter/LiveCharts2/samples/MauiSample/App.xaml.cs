@@ -36,8 +36,9 @@ public partial class App : Application
             {
                 var jts = System.Text.Json.JsonSerializer.Deserialize<JTSRoot>(s);
             }
-            catch
+            catch(Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             return Task.CompletedTask;
         };
@@ -72,14 +73,23 @@ public partial class App : Application
                                                                             // .HasMap<Bar>( .... ) // mark
         ); // mark
 
-        _ = await _mqttClient.ConnectAsync(_mqttClientOptions, CancellationToken.None);
+        while (!_mqttClient.IsConnected)
+        {
+            try
+            {
+                _ = await _mqttClient.ConnectAsync(_mqttClientOptions, CancellationToken.None);
 
-        var mqttSubscribeOptions = _mqttFactory.CreateSubscribeOptionsBuilder()
-            .WithTopicFilter("SensorGrid")
-        .Build();
+                var mqttSubscribeOptions = _mqttFactory.CreateSubscribeOptionsBuilder()
+                    .WithTopicFilter("SensorGrid")
+                .Build();
 
-        _ =
-            _mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
+                _ = _mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"{ex.Message}");
+            }
+        }
     }
 
     public record City(string Name, double Population);
