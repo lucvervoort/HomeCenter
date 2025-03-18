@@ -75,10 +75,12 @@ bool debugOn = false;
 void ShutterLibDebugOn()
 {
 	debugOn = true;
+    std::cout << "DEBUG MODE on" << std::endl;
 }
 
 void ShutterLibDebugOff()
 {
+    std::cout << "DEBUG MODE off" << std::endl;
 	debugOn = false;
 }
 
