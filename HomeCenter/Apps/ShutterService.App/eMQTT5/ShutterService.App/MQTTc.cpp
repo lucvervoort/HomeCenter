@@ -46,7 +46,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
         fprintf(stdout, "Msg received: (%04X)\n", packetIdentifier);
         fprintf(stdout, "  Topic: %.*s\n", topic.length, topic.data);
         fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);   
-        std::string playloadContents = topic.data;     
+        std::string payloadContents = topic.data;     
         if(!strncmp(topic.data, "Shutters", 8))
         {
             std::vector<std::string> v = split (payloadContents, std::string("/"));
