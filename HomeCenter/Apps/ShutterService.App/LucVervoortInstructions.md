@@ -7,6 +7,14 @@ cmake --version
 mkdir build
 cd build
 cmake ..
+make
+
+Client:
+
+https://www.mqttstudio.com/en/index.html, see Microsoft Store
+https://github.com/thomasnordquist/MQTT-Explorer
+
+./MQTTShutterService.App -s 192.168.1.38 -u sidlvet -pw KrommeBeet55 -sub Shutters -c 555545
 
 # Manual
 

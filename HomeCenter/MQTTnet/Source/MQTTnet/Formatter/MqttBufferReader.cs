@@ -142,7 +142,8 @@ namespace MQTTnet.Formatter
             _maxPosition = offset + length;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //LVET TODO: uncomment
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         void ValidateReceiveBuffer(int length)
         {
             var newPosition = _position + length;

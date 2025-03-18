@@ -11,9 +11,27 @@
 
 typedef Strings::FastString String;
 
-struct InitLogger {
-    InitLogger(bool withDump) { const unsigned int logMask = ::Logger::Creation|::Logger::Error|::Logger::Network|::Logger::Connection|::Logger::Content|::Logger::Deletion|(withDump ? ::Logger::Dump : 0);
-    ::Logger::setDefaultSink(new ::Logger::DebugConsoleSink(logMask)); }
+std::vector<std::string> split(const std::string& s, const std::string& delimiter) {
+    std::vector<std::string> tokens;
+    size_t pos = 0;
+    std::string token;
+    while ((pos = s.find(delimiter)) != std::string::npos) {
+        token = s.substr(0, pos);
+        tokens.push_back(token);
+        s.erase(0, pos + delimiter.length());
+    }
+    tokens.push_back(s);
+
+    return tokens;
+}
+
+struct InitLogger 
+{
+    InitLogger(bool withDump) 
+    { 
+        const unsigned int logMask = ::Logger::Creation|::Logger::Error|::Logger::Network|::Logger::Connection|::Logger::Content|::Logger::Deletion|(withDump ? ::Logger::Dump : 0);
+        ::Logger::setDefaultSink(new ::Logger::DebugConsoleSink(logMask)); 
+    }
 };
 
 struct MessageReceiver : public Network::Client::MessageReceived
@@ -23,8 +41,16 @@ struct MessageReceiver : public Network::Client::MessageReceived
     {
         fprintf(stdout, "Msg received: (%04X)\n", packetIdentifier);
         fprintf(stdout, "  Topic: %.*s\n", topic.length, topic.data);
-        fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);
+        fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);        
+        if(caselessEqual(topic.data, "Shutters"))
+        {
+            std::vector<std::string> v = split (payload.data, delimiter);
+
+            for (auto i : v) 
+                cout << i << std::endl;
+        }
     }
+
 #if MQTTUseAuth == 1
     bool authReceived(const ReasonCodes reasonCode, const DynamicStringView & authMethod, const DynamicBinDataView & authData, const PropertiesView & properties)
     {

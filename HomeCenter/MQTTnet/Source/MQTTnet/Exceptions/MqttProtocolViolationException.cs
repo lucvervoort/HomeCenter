@@ -11,6 +11,7 @@ namespace MQTTnet.Exceptions
         public MqttProtocolViolationException(string message)
             : base(message)
         {
+            System.Diagnostics.Debug.WriteLine("MqttProtocolViolationException: " + message);
         }
     }
 }

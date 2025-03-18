@@ -46,7 +46,7 @@ internal partial class Program
         private IDisposable? _disposable = default;
         private IResilientMqttClient _mqttClient;
         private string _serverIp = "localhost";
-        private int _serverPort = 2883;
+        private int _serverPort = 1883;
 
         private const string ipDownstairs = "192.168.0.179";
         private const string keyDownstairs = "Xj9OWvQTPvvQLKkGm2uRX9t8-cMHseznTkpYEztA";
@@ -204,16 +204,19 @@ internal partial class Program
                             .WithResilientClientOptions(resilientClientOptions =>
                                 resilientClientOptions.WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                             .WithClientOptions(clientOptions =>
-                                clientOptions.WithTcpServer(_serverIp, _serverPort)))
-                            .Subscribe(
-                            i =>
                             {
-                                _mqttClient = i;
-                                i.Connected.Subscribe((_) =>
-                                    Console.WriteLine($"{DateTime.Now}\t CLIENT: Connected with server."));
-                                i.Disconnected.Subscribe((_) =>
-                                    Console.WriteLine($"{DateTime.Now}\t CLIENT: Disconnected with server."));
-                            });
+                                clientOptions.WithTcpServer(_serverIp, _serverPort);
+                                clientOptions.WithCredentials("sidlvet", "KrommeBeet55");
+                            }))                    
+                        .Subscribe(
+                        i =>
+                        {
+                            _mqttClient = i;
+                            i.Connected.Subscribe((_) =>
+                                Console.WriteLine($"{DateTime.Now}\t CLIENT: Connected with server."));
+                            i.Disconnected.Subscribe((_) =>
+                                Console.WriteLine($"{DateTime.Now}\t CLIENT: Disconnected with server."));
+                        });
 
                         var subscribed = false;
 
