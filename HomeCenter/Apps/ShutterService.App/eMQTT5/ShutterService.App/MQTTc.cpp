@@ -13,11 +13,13 @@
 
 typedef Strings::FastString String;
 
-std::vector<std::string> split(const std::string& s, const std::string& delimiter) {
+std::vector<std::string> split(std::string& s, const std::string& delimiter) 
+{
     std::vector<std::string> tokens;
     size_t pos = 0;
     std::string token;
-    while ((pos = s.find(delimiter)) != std::string::npos) {
+    while ((pos = s.find(delimiter)) != std::string::npos) 
+    {
         token = s.substr(0, pos);
         tokens.push_back(token);
         s.erase(0, pos + delimiter.length());
@@ -25,7 +27,7 @@ std::vector<std::string> split(const std::string& s, const std::string& delimite
     tokens.push_back(s);
 
     return tokens;
-}
+}:we
 
 struct InitLogger 
 {
@@ -44,9 +46,9 @@ struct MessageReceiver : public Network::Client::MessageReceived
         fprintf(stdout, "Msg received: (%04X)\n", packetIdentifier);
         fprintf(stdout, "  Topic: %.*s\n", topic.length, topic.data);
         fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);        
-        if(topic.data.caselessEqual("shutters"))
+        if(!strncmp(topic.data, "Shutters", 8))
         {
-            std::vector<std::string> v = split (payload.data, delimiter);
+            std::vector<std::string> v = split (payload.data, "/");
 
             for (auto i : v) 
                 std::cout << i << std::endl;
