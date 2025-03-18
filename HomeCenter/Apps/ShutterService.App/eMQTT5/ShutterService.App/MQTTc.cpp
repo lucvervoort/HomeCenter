@@ -542,11 +542,11 @@ struct MessageReceiver : public Network::Client::MessageReceived
                       livingRoomSideGarden = true;
                 }
                 else if( i == "livingroomgarden")
-               {
+                {
                       window = i;
                       setDebugState = false;
                       livingRoomGarden = true;
-               }
+                }
                 else if( i == "kitchenside")
                 {
                       window = i;
@@ -633,7 +633,6 @@ struct MessageReceiver : public Network::Client::MessageReceived
         if(kitchenFront && kitchenFrontTargetState == true) ShutterLibOn( BOARD_C, 7, 20);
         else if(kitchenFront && kitchenFrontTargetState == false) ShutterLibOn( BOARD_C, 8, 20);       
     }
-}
 
 #if MQTTUseAuth == 1
     bool authReceived(const ReasonCodes reasonCode, const DynamicStringView & authMethod, const DynamicBinDataView & authData, const PropertiesView & properties)
