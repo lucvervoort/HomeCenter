@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
+#include <ostream>
 
 // We need MQTT client
 #include "Network/Clients/MQTT.hpp"
