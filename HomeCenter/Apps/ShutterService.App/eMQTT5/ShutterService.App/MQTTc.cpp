@@ -44,12 +44,12 @@ struct MessageReceiver : public Network::Client::MessageReceived
         fprintf(stdout, "Msg received: (%04X)\n", packetIdentifier);
         fprintf(stdout, "  Topic: %.*s\n", topic.length, topic.data);
         fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);        
-        if(caselessEqual(topic.data, "Shutters"))
+        if(topic.data.caselessEqual("shutters"))
         {
             std::vector<std::string> v = split (payload.data, delimiter);
 
             for (auto i : v) 
-                cout << i << std::endl;
+                std::cout << i << std::endl;
         }
     }
 
