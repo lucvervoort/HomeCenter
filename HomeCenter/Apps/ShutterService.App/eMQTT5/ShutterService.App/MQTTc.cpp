@@ -478,11 +478,11 @@ struct MessageReceiver : public Network::Client::MessageReceived
             bool studySideTargetState = false;
             bool studyGarden = false;
             bool studyGardenTargetState = false;
+            bool setDebugState = false;
 
             for (auto i : v)
             {
                 std::cout << i << std::endl;
-                bool setDebugState = false;
                 std::string window("");
                 if (i == "setdebugstate")
                 {
