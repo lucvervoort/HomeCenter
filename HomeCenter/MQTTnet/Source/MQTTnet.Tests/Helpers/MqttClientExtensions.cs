@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using MQTTnet.Client;
 using MQTTnet.Tests.Mockups;
 
 namespace MQTTnet.Tests.Helpers
@@ -12,10 +11,7 @@ namespace MQTTnet.Tests.Helpers
     {
         public static TestApplicationMessageReceivedHandler TrackReceivedMessages(this IMqttClient client)
         {
-            if (client == null)
-            {
-                throw new ArgumentNullException(nameof(client));
-            }
+            ArgumentNullException.ThrowIfNull(client);
 
             return new TestApplicationMessageReceivedHandler(client);
         }

@@ -3,36 +3,36 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using MQTTnet.Formatter;
 using MQTTnet.Packets;
 
-namespace MQTTnet.Adapter
+namespace MQTTnet.Adapter;
+
+public interface IMqttChannelAdapter : IDisposable
 {
-    public interface IMqttChannelAdapter : IDisposable
-    {
-        string Endpoint { get; }
+    long BytesReceived { get; }
 
-        bool IsSecureConnection { get; }
+    long BytesSent { get; }
 
-        X509Certificate2 ClientCertificate { get; }
+    X509Certificate2 ClientCertificate { get; }
 
-        MqttPacketFormatterAdapter PacketFormatterAdapter { get; }
+    EndPoint RemoteEndPoint { get; }
 
-        long BytesSent { get; }
+    bool IsSecureConnection { get; }
 
-        long BytesReceived { get; }
+    MqttPacketFormatterAdapter PacketFormatterAdapter { get; }
 
-        Task ConnectAsync(CancellationToken cancellationToken);
+    Task ConnectAsync(CancellationToken cancellationToken);
 
-        Task DisconnectAsync(CancellationToken cancellationToken);
+    Task DisconnectAsync(CancellationToken cancellationToken);
 
-        Task SendPacketAsync(MqttPacket packet, CancellationToken cancellationToken);
+    Task<MqttPacket> ReceivePacketAsync(CancellationToken cancellationToken);
 
-        Task<MqttPacket> ReceivePacketAsync(CancellationToken cancellationToken);
+    void ResetStatistics();
 
-        void ResetStatistics();
-    }
+    Task SendPacketAsync(MqttPacket packet, CancellationToken cancellationToken);
 }

@@ -107,7 +107,7 @@ public class YatsdbLowLevelStorage : IYatsdbLowLevelStorage
             bucketCreationData.Description ?? string.Empty,
             bucketCreationData.CreateTimeUnixTimestampInMs);
 
-        if (this.zoneTree.TryAtomicAdd(in bucketKey, in bucketValue))
+        if (this.zoneTree.TryAtomicAdd(in bucketKey, in bucketValue, out long opIndex))
         {
             bucketId = bucketIdInternal;
             return true;
@@ -130,7 +130,7 @@ public class YatsdbLowLevelStorage : IYatsdbLowLevelStorage
                 return false;
             }
 
-            return this.zoneTree.TryDelete(in bucketKey);
+            return this.zoneTree.TryDelete(in bucketKey, out long opIndex);
         }
 
         bucketId = 0;
@@ -229,7 +229,7 @@ public class YatsdbLowLevelStorage : IYatsdbLowLevelStorage
             measurementId = this.EnsureHilo(HiloKeyEncoding.Encode(HiloType.Measurement, bucketId));
             value = TupleEncoder.Create(1, measurementId);
 
-            return this.zoneTree.TryAtomicAdd(in measurementKey, in value);
+            return this.zoneTree.TryAtomicAdd(in measurementKey, in value, out long opIndex);
         }
     }
 

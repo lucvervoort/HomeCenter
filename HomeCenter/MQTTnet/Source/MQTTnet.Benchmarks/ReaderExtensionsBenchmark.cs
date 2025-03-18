@@ -31,12 +31,12 @@ namespace MQTTnet.Benchmarks
             .WithPayload(new byte[10 * 1024])
             .Build();
 
-            var packet = MqttPacketFactories.Publish.Create(mqttMessage);
+            var packet = MqttPublishPacketFactory.Create(mqttMessage);
 
             var buffer = mqttPacketFormatter.Encode(packet);
             stream = new MemoryStream();
             stream.Write(buffer.Packet);
-            stream.Write(buffer.Payload);
+            stream.Write(buffer.Payload.ToArray());
             mqttPacketFormatter.Cleanup();
         }
 
@@ -145,7 +145,7 @@ namespace MQTTnet.Benchmarks
                 out SequencePosition observed,
                 out int bytesRead)
             {
-                if (formatter == null) throw new ArgumentNullException(nameof(formatter));
+                ArgumentNullException.ThrowIfNull(formatter);
 
                 packet = null;
                 consumed = input.Start;

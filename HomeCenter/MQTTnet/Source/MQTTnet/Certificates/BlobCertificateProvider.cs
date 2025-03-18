@@ -18,6 +18,9 @@ namespace MQTTnet.Certificates
 
         public string Password { get; set; }
 
+        // Disable the warning.
+#pragma warning disable SYSLIB0057
+        // LVET TODO
         public X509Certificate2 GetCertificate()
         {
             if (string.IsNullOrEmpty(Password))
@@ -28,5 +31,7 @@ namespace MQTTnet.Certificates
 
             return new X509Certificate2(Blob, Password);
         }
+        // Re-enable the warning.
+#pragma warning restore SYSLIB0057
     }
 }

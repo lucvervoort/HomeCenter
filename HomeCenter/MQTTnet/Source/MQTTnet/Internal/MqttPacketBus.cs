@@ -124,10 +124,7 @@ namespace MQTTnet.Internal
 
         public void EnqueueItem(MqttPacketBusItem item, MqttPacketBusPartition partition)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            ArgumentNullException.ThrowIfNull(item);
 
             lock (_syncRoot)
             {
@@ -141,14 +138,6 @@ namespace MQTTnet.Internal
             lock (_syncRoot)
             {
                 return _partitions[(int)partition].Select(i => i.Packet).ToList();
-            }
-        }
-
-        public int ItemsCount(MqttPacketBusPartition partition)
-        {
-            lock (_syncRoot)
-            {
-                return _partitions[(int)partition].Count;
             }
         }
 

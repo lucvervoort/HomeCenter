@@ -3,28 +3,23 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using MQTTnet.Client;
 using MQTTnet.Packets;
 
-namespace MQTTnet.Formatter
+namespace MQTTnet.Formatter;
+
+public static class MqttSubscribePacketFactory
 {
-    public sealed class MqttSubscribePacketFactory
+    public static MqttSubscribePacket Create(MqttClientSubscribeOptions clientSubscribeOptions)
     {
-        public MqttSubscribePacket Create(MqttClientSubscribeOptions clientSubscribeOptions)
+        ArgumentNullException.ThrowIfNull(clientSubscribeOptions);
+
+        var packet = new MqttSubscribePacket
         {
-            if (clientSubscribeOptions == null)
-            {
-                throw new ArgumentNullException(nameof(clientSubscribeOptions));
-            }
+            TopicFilters = clientSubscribeOptions.TopicFilters,
+            SubscriptionIdentifier = clientSubscribeOptions.SubscriptionIdentifier,
+            UserProperties = clientSubscribeOptions.UserProperties
+        };
 
-            var packet = new MqttSubscribePacket
-            {
-                TopicFilters = clientSubscribeOptions.TopicFilters,
-                SubscriptionIdentifier = clientSubscribeOptions.SubscriptionIdentifier,
-                UserProperties = clientSubscribeOptions.UserProperties
-            };
-
-            return packet;
-        }
+        return packet;
     }
 }

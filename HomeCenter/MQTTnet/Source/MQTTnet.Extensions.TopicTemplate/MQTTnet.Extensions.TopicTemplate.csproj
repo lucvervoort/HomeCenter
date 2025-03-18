@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks>
-        
+        <TargetFramework>net9.0</TargetFramework>
         <AssemblyName>MQTTnet.Extensions.TopicTemplate</AssemblyName>
         <RootNamespace>MQTTnet.Extensions.TopicTemplate</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -29,6 +28,7 @@
         <PackageIcon>nuget.png</PackageIcon>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReleaseNotes>For release notes please go to MQTTnet release notes (https://www.nuget.org/packages/MQTTnet/).</PackageReleaseNotes>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1591;NETSDK1138</NoWarn>
@@ -44,17 +44,14 @@
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
-    
+
     <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\MQTTnet\MQTTnet.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

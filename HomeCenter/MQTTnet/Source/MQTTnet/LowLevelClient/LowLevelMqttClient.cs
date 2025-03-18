@@ -6,8 +6,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MQTTnet.Adapter;
-using MQTTnet.Client;
-using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.Logger;
+using MQTTnet.Diagnostics.PacketInspection;
 using MQTTnet.Exceptions;
 using MQTTnet.Internal;
 using MQTTnet.Packets;
@@ -41,10 +41,7 @@ namespace MQTTnet.LowLevelClient
 
         public async Task ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken)
         {
-            if (options is null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
+            ArgumentNullException.ThrowIfNull(options);
 
             if (_adapter != null)
             {
@@ -127,10 +124,7 @@ namespace MQTTnet.LowLevelClient
 
         public async Task SendAsync(MqttPacket packet, CancellationToken cancellationToken)
         {
-            if (packet is null)
-            {
-                throw new ArgumentNullException(nameof(packet));
-            }
+            ArgumentNullException.ThrowIfNull(packet);
 
             var adapter = _adapter;
             if (adapter == null)

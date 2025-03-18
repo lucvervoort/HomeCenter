@@ -2,13 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using Microsoft.AspNetCore.Http;
+using MQTTnet.Channel;
+using MQTTnet.Internal;
+using System.Buffers;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using MQTTnet.Channel;
-using MQTTnet.Internal;
 
 namespace MQTTnet.Tests.Mockups
 {
@@ -26,7 +28,7 @@ namespace MQTTnet.Tests.Mockups
             _stream = new MemoryStream(buffer);
         }
 
-        public string Endpoint { get; } = "<Test channel>";
+        public EndPoint RemoteEndPoint { get; set; }
 
         public bool IsSecureConnection { get; } = false;
 
@@ -47,9 +49,12 @@ namespace MQTTnet.Tests.Mockups
             return _stream.ReadAsync(buffer, offset, count, cancellationToken);
         }
 
-        public Task WriteAsync(ArraySegment<byte> buffer, bool isEndOfPacket, CancellationToken cancellationToken)
+        public async Task WriteAsync(ReadOnlySequence<byte> buffer, bool isEndOfPacket, CancellationToken cancellationToken)
         {
-            return _stream.WriteAsync(buffer.Array, buffer.Offset, buffer.Count, cancellationToken);
+            foreach (var segment in buffer)
+            {
+                await _stream.WriteAsync(segment, cancellationToken).ConfigureAwait(false);
+            }
         }
 
         public void Dispose()

@@ -13,7 +13,9 @@ using MQTTnet.Channel;
 using MQTTnet.Formatter;
 using MQTTnet.Formatter.V3;
 using BenchmarkDotNet.Jobs;
-using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.Logger;
+using System.Buffers;
+using System.Net;
 
 namespace MQTTnet.Benchmarks
 {
@@ -75,7 +77,7 @@ namespace MQTTnet.Benchmarks
                 _position = _buffer.Offset;
             }
 
-            public string Endpoint { get; } = string.Empty;
+            public EndPoint RemoteEndPoint { get; set; }
 
             public bool IsSecureConnection { get; } = false;
 
@@ -104,7 +106,7 @@ namespace MQTTnet.Benchmarks
                 return Task.FromResult(count);
             }
 
-            public Task WriteAsync(ArraySegment<byte> buffer, bool isEndOfPacket, CancellationToken cancellationToken)
+            public Task WriteAsync(ReadOnlySequence<byte> buffer, bool isEndOfPacket, CancellationToken cancellationToken)
             {
                 throw new NotSupportedException();
             }

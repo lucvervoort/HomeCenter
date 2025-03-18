@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,9 +18,9 @@ namespace MQTTnet.Formatter.V3
     {
         const int FixedHeaderSize = 1;
 
-        static readonly MqttDisconnectPacket DisconnectPacket = new MqttDisconnectPacket();
+        static readonly MqttDisconnectPacket DisconnectPacket = new();
 
-        readonly MqttBufferReader _bufferReader = new MqttBufferReader();
+        readonly MqttBufferReader _bufferReader = new();
         readonly MqttBufferWriter _bufferWriter;
         readonly MqttProtocolVersion _mqttProtocolVersion;
 
@@ -67,10 +68,8 @@ namespace MQTTnet.Formatter.V3
                     {
                         return DecodeConnAckPacketV311(receivedMqttPacket.Body);
                     }
-                    else
-                    {
-                        return DecodeConnAckPacket(receivedMqttPacket.Body);
-                    }
+
+                    return DecodeConnAckPacket(receivedMqttPacket.Body);
                 case MqttControlPacketType.Disconnect:
                     return DisconnectPacket;
 
@@ -90,10 +89,7 @@ namespace MQTTnet.Formatter.V3
 
         public MqttPacketBuffer Encode(MqttPacket packet)
         {
-            if (packet == null)
-            {
-                throw new ArgumentNullException(nameof(packet));
-            }
+            ArgumentNullException.ThrowIfNull(packet);
 
             // Leave enough head space for max header size (fixed + 4 variable remaining length = 5 bytes)
             _bufferWriter.Reset(5);
@@ -102,11 +98,11 @@ namespace MQTTnet.Formatter.V3
             var fixedHeader = EncodePacket(packet, _bufferWriter);
             var remainingLength = (uint)(_bufferWriter.Length - 5);
 
-            var publishPacket = packet as MqttPublishPacket;
-            var payloadSegment = publishPacket?.PayloadSegment;
-            if (payloadSegment != null)
+            ReadOnlySequence<byte> payload = default;
+            if (packet is MqttPublishPacket publishPacket)
             {
-                remainingLength += (uint)payloadSegment.Value.Count;
+                payload = publishPacket.Payload;
+                remainingLength += (uint)payload.Length;
             }
 
             var remainingLengthSize = MqttBufferWriter.GetVariableByteIntegerSize(remainingLength);
@@ -119,12 +115,11 @@ namespace MQTTnet.Formatter.V3
             _bufferWriter.WriteByte(fixedHeader);
             _bufferWriter.WriteVariableByteInteger(remainingLength);
 
-            var buffer = _bufferWriter.GetBuffer();
-            var firstSegment = new ArraySegment<byte>(buffer, headerOffset, _bufferWriter.Length - headerOffset);
+            var firstSegment = new ArraySegment<byte>(_bufferWriter.GetBuffer(), headerOffset, _bufferWriter.Length - headerOffset);
 
-            return payloadSegment == null
+            return payload.Length == 0
                 ? new MqttPacketBuffer(firstSegment)
-                : new MqttPacketBuffer(firstSegment, payloadSegment.Value);
+                : new MqttPacketBuffer(firstSegment, payload);
         }
 
         MqttPacket DecodeConnAckPacket(ArraySegment<byte> body)
@@ -480,7 +475,16 @@ namespace MQTTnet.Formatter.V3
             ValidateConnectPacket(packet);
 
             bufferWriter.WriteString("MQTT");
-            bufferWriter.WriteByte(4); // 3.1.2.2 Protocol Level 4
+
+            // 3.1.2.2 Protocol Level 4
+            var protocolVersion = 4;
+
+            if (packet.TryPrivate)
+            {
+                protocolVersion |= 0x80;
+            }
+
+            bufferWriter.WriteByte((byte)protocolVersion);
 
             byte connectFlags = 0x0;
             if (packet.CleanSession)
@@ -551,19 +555,15 @@ namespace MQTTnet.Formatter.V3
                     {
                         return EncodeConnectPacketV311(connectPacket, bufferWriter);
                     }
-                    else
-                    {
-                        return EncodeConnectPacket(connectPacket, bufferWriter);
-                    }
+
+                    return EncodeConnectPacket(connectPacket, bufferWriter);
                 case MqttConnAckPacket connAckPacket:
                     if (_mqttProtocolVersion == MqttProtocolVersion.V311)
                     {
                         return EncodeConnAckPacketV311(connAckPacket, bufferWriter);
                     }
-                    else
-                    {
-                        return EncodeConnAckPacket(connAckPacket, bufferWriter);
-                    }
+
+                    return EncodeConnAckPacket(connAckPacket, bufferWriter);
                 case MqttDisconnectPacket _:
                     return EncodeEmptyPacket(MqttControlPacketType.Disconnect);
                 case MqttPingReqPacket _:
@@ -793,10 +793,7 @@ namespace MQTTnet.Formatter.V3
 
         void ValidateConnectPacket(MqttConnectPacket packet)
         {
-            if (packet == null)
-            {
-                throw new ArgumentNullException(nameof(packet));
-            }
+            ArgumentNullException.ThrowIfNull(packet);
 
             if (string.IsNullOrEmpty(packet.ClientId) && !packet.CleanSession)
             {

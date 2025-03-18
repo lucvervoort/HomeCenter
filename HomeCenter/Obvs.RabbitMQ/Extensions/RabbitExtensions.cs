@@ -7,7 +7,7 @@ namespace Obvs.RabbitMQ.Extensions
 {
     internal static class RabbitExtensions
     {
-        public static IObservable<BasicDeliverEventArgs> ToObservable(this EventingBasicConsumer consumer)
+        public static IObservable<BasicDeliverEventArgs> ToObservable(this AsyncEventingBasicConsumer consumer)
         {
             return Observable.Create<BasicDeliverEventArgs>(
                 observer =>
@@ -15,13 +15,13 @@ namespace Obvs.RabbitMQ.Extensions
                     EventHandler<BasicDeliverEventArgs> onReceived = (sender, args) => observer.OnNext(args);
                     EventHandler<ConsumerEventArgs> consumerCancelled = (sender, args) => observer.OnCompleted();
                     
-                    consumer.Received += onReceived;
+                    consumer.ReceivedAsync += onReceived;
                     consumer.ConsumerCancelled += consumerCancelled;
 
                     return Disposable.Create(
                         () =>
                         {
-                            consumer.Received -= onReceived;
+                            consumer.ReceivedAsync -= onReceived;
                             consumer.ConsumerCancelled -= consumerCancelled;
                         });
                 });

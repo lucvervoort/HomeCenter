@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks>
-        
+        <TargetFramework>net9.0</TargetFramework>
         <AssemblyName>MQTTnet.Extensions.Rpc</AssemblyName>
         <RootNamespace>MQTTnet.Extensions.Rpc</RootNamespace>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -27,11 +26,16 @@
         <PackageIcon>nuget.png</PackageIcon>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReleaseNotes>For release notes please go to MQTTnet release notes (https://www.nuget.org/packages/MQTTnet/).</PackageReleaseNotes>
         <DisableImplicitAspNetCoreAnalyzers>true</DisableImplicitAspNetCoreAnalyzers>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <NoWarn>1591;NETSDK1138</NoWarn>
-        <LangVersion>7.3</LangVersion>
+        <NoWarn>1591;NETSDK1138;NU1803;NU1901;NU1902</NoWarn>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAudit>true</NuGetAudit>
+        <NuGetAuditLevel>low</NuGetAuditLevel>
+        <AnalysisLevel>latest-Recommended</AnalysisLevel>
     </PropertyGroup>
 
     <ItemGroup>
@@ -42,11 +46,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MQTTnet\MQTTnet.csproj" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+        <ProjectReference Include="..\MQTTnet\MQTTnet.csproj"/>
     </ItemGroup>
-    
+
 </Project>

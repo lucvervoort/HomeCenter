@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net9.0</TargetFrameworks>
     <Company>Christopher Read</Company>
     <Copyright>Copyright © Christopher Read 2017</Copyright>
     <Version>1.0.0</Version>
@@ -11,7 +11,7 @@
     <Description>An observable microservice bus .NET library, based on Reactive Extensions. Search 'Obvs' for other transport, serialization, and logging extensions.</Description>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' != 'net472' ">
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Reactive" Version="6.0.1" />

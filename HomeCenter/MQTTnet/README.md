@@ -3,16 +3,18 @@
 <br/>
 </p>
 
-[![NuGet Badge](https://buildstats.info/nuget/MQTTnet)](https://www.nuget.org/packages/MQTTnet)
+[![NuGet Badge](https://img.shields.io/nuget/dt/MQTTnet)](https://www.nuget.org/packages/MQTTnet)
 [![CI](https://github.com/dotnet/MQTTnet/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dotnet/MQTTnet/actions/workflows/ci.yml)
-[![MyGet](https://img.shields.io/myget/mqttnet/v/mqttnet?color=orange&label=MyGet-Preview)](https://www.myget.org/feed/mqttnet/package/nuget/MQTTnet)
+[![MyGet](https://img.shields.io/myget/mqttnet/v/mqttnet?color=orange&label=preview)](https://www.myget.org/feed/mqttnet/package/nuget/MQTTnet)
 ![Size](https://img.shields.io/github/repo-size/dotnet/MQTTnet.svg)
 [![Join the chat at https://gitter.im/MQTTnet/community](https://badges.gitter.im/MQTTnet/community.svg)](https://gitter.im/MQTTnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://raw.githubusercontent.com/dotnet/MQTTnet/master/LICENSE)
 
 # MQTTnet
 
-MQTTnet is a high performance .NET library for MQTT based communication. It provides a MQTT client and a MQTT server (broker) and supports the MQTT protocol up to version 5. It is compatible with mostly any supported .NET Framework version and CPU architecture.
+MQTTnet is a high performance .NET library for MQTT based communication. It provides a MQTT client and a MQTT server (
+broker) and supports the MQTT protocol up to version 5. It is compatible with mostly any supported .NET Framework
+version and CPU architecture.
 
 ## Features
 
@@ -28,13 +30,15 @@ MQTTnet is a high performance .NET library for MQTT based communication. It prov
 * Unit tested (~636 tests)
 * No external dependencies
 
-\* Tested on local machine (Intel i7 8700K) with MQTTnet client and server running in the same process using the TCP channel. The app for verification is part of this repository and stored in _/Tests/MQTTnet.TestApp.NetCore_.
+\* Tested on local machine (Intel i7 8700K) with MQTTnet client and server running in the same process using the TCP
+channel. The app for verification is part of this repository and stored in _/Tests/MQTTnet.TestApp.NetCore_.
 
 ### Client
 
 * Communication via TCP (+TLS) or WS (WebSocket) supported
 * Included core _LowLevelMqttClient_ with low level functionality
-* Also included _ManagedMqttClient_ which maintains the connection and subscriptions automatically. Also application messages are queued and re-scheduled for higher QoS levels automatically.
+* Also included _ManagedMqttClient_ which maintains the connection and subscriptions automatically. Also application
+  messages are queued and re-scheduled for higher QoS levels automatically.
 * Rx support (via another project)
 * Compatible with Microsoft Azure IoT Hub
 
@@ -52,9 +56,11 @@ MQTTnet is a high performance .NET library for MQTT based communication. It prov
 
 ## Getting Started
 
-MQTTnet is delivered via <b>NuGet</b> package manager. You can find the packages here: https://www.nuget.org/packages/MQTTnet/
+MQTTnet is delivered via <b>NuGet</b> package manager. You can find the packages
+here: https://www.nuget.org/packages/MQTTnet/
 
 Use these command in the Package Manager console to install MQTTnet manually:
+
 ```
 Install-Package MQTTnet
 ```
@@ -68,7 +74,8 @@ Samples for using MQTTnet are part of this repository. For starters these sample
 
 ## Code of Conduct
 
-This project has adopted the code of conduct defined by the Contributor Covenant to clarify expected behavior in our community.
+This project has adopted the code of conduct defined by the Contributor Covenant to clarify expected behavior in our
+community.
 For more information see the [.NET Foundation Code of Conduct](https://dotnetfoundation.org/code-of-conduct).
 
 ## .NET Foundation

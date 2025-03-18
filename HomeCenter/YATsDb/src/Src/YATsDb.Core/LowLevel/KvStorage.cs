@@ -79,7 +79,7 @@ public class KvStorage : IKvStorage
     public bool Remove(string key1, string key2)
     {
         byte[] keyData = TupleEncoder.Create(DataType.ApplicationDataPrefix, key1, key2);
-        return this.zoneTree.TryDelete(in keyData);
+        return this.zoneTree.TryDelete(in keyData, out long opIndex);
     }
 
     public void Upsert(string key1, string key2, string value)

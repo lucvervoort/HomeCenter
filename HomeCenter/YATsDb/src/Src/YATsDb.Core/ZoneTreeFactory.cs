@@ -13,7 +13,7 @@ namespace YATsDb.Core;
 
 public static class ZoneTreeFactory
 {
-    internal static readonly IRefComparer<byte[]> RefComparer = new ByteArrayComparerAscending();
+    internal static readonly IRefComparer<Memory<byte>> RefComparer = new ByteArrayComparerAscending();
 
     public static IZoneTree<byte[], byte[]> Build(Action<ZoneTreeFactory<byte[], byte[]>> configure)
     {

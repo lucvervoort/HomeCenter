@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using MQTTnet.Diagnostics;
+using MQTTnet.Diagnostics.Logger;
 
 namespace MQTTnet.Internal
 {
@@ -24,10 +24,7 @@ namespace MQTTnet.Internal
 
         public static async Task WaitAsync(this Task task, Task sender, MqttNetSourceLogger logger)
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
+            ArgumentNullException.ThrowIfNull(logger);
 
             if (task == null)
             {

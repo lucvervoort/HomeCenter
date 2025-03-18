@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MQTTnet.Client;
 using MQTTnet.Internal;
 
 namespace MQTTnet.Tests.Mockups
@@ -19,10 +18,7 @@ namespace MQTTnet.Tests.Mockups
 
         public TestApplicationMessageReceivedHandler(IMqttClient mqttClient)
         {
-            if (mqttClient == null)
-            {
-                throw new ArgumentNullException(nameof(mqttClient));
-            }
+            ArgumentNullException.ThrowIfNull(mqttClient);
 
             mqttClient.ApplicationMessageReceivedAsync += OnApplicationMessageReceivedAsync;
         }

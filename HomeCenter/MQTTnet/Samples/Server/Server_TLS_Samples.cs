@@ -24,14 +24,14 @@ public static class Server_TLS_Samples
          * See sample "Run_Minimal_Server" for more details.
          */
 
-        var mqttFactory = new MqttFactory();
+        var mqttServerFactory = new MqttServerFactory();
 
         // This certificate is self signed so that
         var certificate = CreateSelfSignedCertificate("1.3.6.1.5.5.7.3.1");
-        
+
         var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionCertificate(certificate).WithEncryptedEndpoint().Build();
 
-        using (var mqttServer = mqttFactory.CreateMqttServer(mqttServerOptions))
+        using (var mqttServer = mqttServerFactory.CreateMqttServer(mqttServerOptions))
         {
             await mqttServer.StartAsync();
 
@@ -61,6 +61,9 @@ public static class Server_TLS_Samples
 
             certRequest.CertificateExtensions.Add(sanBuilder.Build());
 
+            // Disable the warning.
+#pragma warning disable SYSLIB0057
+            // LVET TODO
             using (var certificate = certRequest.CreateSelfSigned(DateTimeOffset.Now.AddMinutes(-10), DateTimeOffset.Now.AddMinutes(10)))
             {
                 var pfxCertificate = new X509Certificate2(
@@ -70,6 +73,8 @@ public static class Server_TLS_Samples
 
                 return pfxCertificate;
             }
+            // Re-enable the warning.
+#pragma warning restore SYSLIB0057
         }
     }
 }

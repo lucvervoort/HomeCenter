@@ -3,11 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using MQTTnet.Adapter;
-using MQTTnet.Diagnostics;
 using MQTTnet.Formatter;
 using System;
 using MQTTnet.Channel;
-using MQTTnet.Client;
+using MQTTnet.Diagnostics.Logger;
 
 namespace MQTTnet.Implementations
 {
@@ -15,7 +14,7 @@ namespace MQTTnet.Implementations
     {
         public IMqttChannelAdapter CreateClientAdapter(MqttClientOptions options, MqttPacketInspector packetInspector, IMqttNetLogger logger)
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
+            ArgumentNullException.ThrowIfNull(options);
 
             IMqttChannel channel;
             switch (options.ChannelOptions)
