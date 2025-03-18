@@ -71,6 +71,7 @@ kitchenfront down BOARD_C 8
 */
 
 bool debugOn = false;
+int defaultWindowDuration = 20;
 
 void ShutterLibDebugOn()
 {
@@ -616,41 +617,41 @@ struct MessageReceiver : public Network::Client::MessageReceived
                 }
             }
 
-            if (dressing && dressingTargetState == true) ShutterLibOn(BOARD_A, 1, 20);
-            else if (dressing && dressingTargetState == false) ShutterLibOn(BOARD_A, 2, 20);
+            if (dressing && dressingTargetState == true) ShutterLibOn(BOARD_A, 1, defaultWindowDuration);
+            else if (dressing && dressingTargetState == false) ShutterLibOn(BOARD_A, 2, defaultWindowDuration);
 
-            if (bedroomSide && bedroomSideTargetState == true) ShutterLibOn(BOARD_A, 3, 20);
-            else if (bedroomSide && bedroomSideTargetState == false) ShutterLibOn(BOARD_A, 4, 20);
+            if (bedroomSide && bedroomSideTargetState == true) ShutterLibOn(BOARD_A, 3, defaultWindowDuration);
+            else if (bedroomSide && bedroomSideTargetState == false) ShutterLibOn(BOARD_A, 4, defaultWindowDuration);
 
-            if (bathroom && bathroomTargetState == true) ShutterLibOn(BOARD_A, 5, 20);
-            else if (bathroom && bathroomTargetState == false) ShutterLibOn(BOARD_A, 6, 20);
+            if (bathroom && bathroomTargetState == true) ShutterLibOn(BOARD_A, 5, defaultWindowDuration);
+            else if (bathroom && bathroomTargetState == false) ShutterLibOn(BOARD_A, 6, defaultWindowDuration);
 
-            if (bedroomGarden && bedroomGardenTargetState == true) ShutterLibOn(BOARD_A, 7, 20);
-            else if (bedroomGarden && bedroomGardenTargetState == false) ShutterLibOn(BOARD_A, 8, 20);
+            if (bedroomGarden && bedroomGardenTargetState == true) ShutterLibOn(BOARD_A, 7, defaultWindowDuration);
+            else if (bedroomGarden && bedroomGardenTargetState == false) ShutterLibOn(BOARD_A, 8, defaultWindowDuration);
 
-            if (livingRoomFront && livingRoomFrontTargetState == true) ShutterLibOn(BOARD_B, 1, 20);
-            else if (livingRoomFront && livingRoomFrontTargetState == false) ShutterLibOn(BOARD_B, 2, 20);
+            if (livingRoomFront && livingRoomFrontTargetState == true) ShutterLibOn(BOARD_B, 1, defaultWindowDuration);
+            else if (livingRoomFront && livingRoomFrontTargetState == false) ShutterLibOn(BOARD_B, 2, defaultWindowDuration);
 
-            if (livingRoomSideFront && livingRoomSideFrontTargetState == true) ShutterLibOn(BOARD_B, 3, 20);
-            else if (livingRoomSideFront && livingRoomSideFrontTargetState == false) ShutterLibOn(BOARD_B, 4, 20);
+            if (livingRoomSideFront && livingRoomSideFrontTargetState == true) ShutterLibOn(BOARD_B, 3, defaultWindowDuration);
+            else if (livingRoomSideFront && livingRoomSideFrontTargetState == false) ShutterLibOn(BOARD_B, 4, defaultWindowDuration);
 
-            if (livingRoomSideGarden && livingRoomSideGardenTargetState == true) ShutterLibOn(BOARD_B, 5, 20);
-            else if (livingRoomSideGarden && livingRoomSideGardenTargetState == false) ShutterLibOn(BOARD_B, 6, 20);
+            if (livingRoomSideGarden && livingRoomSideGardenTargetState == true) ShutterLibOn(BOARD_B, 5, defaultWindowDuration);
+            else if (livingRoomSideGarden && livingRoomSideGardenTargetState == false) ShutterLibOn(BOARD_B, 6, defaultWindowDuration);
 
             if (livingRoomGarden && livingRoomGardenTargetState == true) ShutterLibOn(BOARD_B, 8, 30);
             else if (livingRoomGarden && livingRoomGardenTargetState == false) ShutterLibOn(BOARD_B, 7, 30);
 
-            if (kitchenSide && kitchenSideTargetState == true) ShutterLibOn(BOARD_C, 1, 20);
-            else if (kitchenSide && kitchenSideTargetState == false) ShutterLibOn(BOARD_C, 2, 20);
+            if (kitchenSide && kitchenSideTargetState == true) ShutterLibOn(BOARD_C, 1, defaultWindowDuration);
+            else if (kitchenSide && kitchenSideTargetState == false) ShutterLibOn(BOARD_C, 2, defaultWindowDuration);
 
-            if (studySide && studySideTargetState == true) ShutterLibOn(BOARD_C, 3, 20);
-            else if (studySide && studySideTargetState == false) ShutterLibOn(BOARD_C, 4, 20);
+            if (studySide && studySideTargetState == true) ShutterLibOn(BOARD_C, 3, defaultWindowDuration);
+            else if (studySide && studySideTargetState == false) ShutterLibOn(BOARD_C, 4, defaultWindowDuration);
 
-            if (studyGarden && studyGardenTargetState == true) ShutterLibOn(BOARD_C, 5, 20);
-            else if (studyGarden && studyGardenTargetState == false) ShutterLibOn(BOARD_C, 6, 20);
+            if (studyGarden && studyGardenTargetState == true) ShutterLibOn(BOARD_C, 5, defaultWindowDuration);
+            else if (studyGarden && studyGardenTargetState == false) ShutterLibOn(BOARD_C, 6, defaultWindowDuration);
 
-            if (kitchenFront && kitchenFrontTargetState == true) ShutterLibOn(BOARD_C, 7, 20);
-            else if (kitchenFront && kitchenFrontTargetState == false) ShutterLibOn(BOARD_C, 8, 20);
+            if (kitchenFront && kitchenFrontTargetState == true) ShutterLibOn(BOARD_C, 7, defaultWindowDuration);
+            else if (kitchenFront && kitchenFrontTargetState == false) ShutterLibOn(BOARD_C, 8, defaultWindowDuration);
         }
     }
 
