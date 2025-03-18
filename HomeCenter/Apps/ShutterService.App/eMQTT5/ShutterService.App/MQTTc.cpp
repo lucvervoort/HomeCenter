@@ -617,41 +617,185 @@ struct MessageReceiver : public Network::Client::MessageReceived
                 }
             }
 
-            if (dressing && dressingTargetState == true) ShutterLibOn(BOARD_A, 1, defaultWindowDuration);
-            else if (dressing && dressingTargetState == false) ShutterLibOn(BOARD_A, 2, defaultWindowDuration);
+            if (dressing)
+            {
+                DEBUG_TRACE("DRESSING");
+                if (dressingTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_A, 1, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_A, 2, defaultWindowDuration);
+                }
+            }
 
-            if (bedroomSide && bedroomSideTargetState == true) ShutterLibOn(BOARD_A, 3, defaultWindowDuration);
-            else if (bedroomSide && bedroomSideTargetState == false) ShutterLibOn(BOARD_A, 4, defaultWindowDuration);
+            if (bedroomSide)
+            {
+                DEBUG_TRACE("BEDROOMSIDE");
+                if (bedroomSideTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_A, 3, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_A, 4, defaultWindowDuration);
+                }
+            }
 
-            if (bathroom && bathroomTargetState == true) ShutterLibOn(BOARD_A, 5, defaultWindowDuration);
-            else if (bathroom && bathroomTargetState == false) ShutterLibOn(BOARD_A, 6, defaultWindowDuration);
+            if (bathroom)
+            {
+                DEBUG_TRACE("BATHROOM");
+                if (bathroomTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_A, 5, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_A, 6, defaultWindowDuration);
+                }
+            }
 
-            if (bedroomGarden && bedroomGardenTargetState == true) ShutterLibOn(BOARD_A, 7, defaultWindowDuration);
-            else if (bedroomGarden && bedroomGardenTargetState == false) ShutterLibOn(BOARD_A, 8, defaultWindowDuration);
+            if (bedroomGarden)
+            {
+                DEBUG_TRACE("BEDROOMGARDEN");
+                if (bedroomGardenTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_A, 7, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_A, 8, defaultWindowDuration);
+                }
+            }
 
-            if (livingRoomFront && livingRoomFrontTargetState == true) ShutterLibOn(BOARD_B, 1, defaultWindowDuration);
-            else if (livingRoomFront && livingRoomFrontTargetState == false) ShutterLibOn(BOARD_B, 2, defaultWindowDuration);
+            if (livingRoomFront)
+            {
+                DEBUG_TRACE("LIVINGROOMFRONT");
+                if (livingRoomFrontTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_B, 1, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_B, 2, defaultWindowDuration);
+                }
+            }
 
-            if (livingRoomSideFront && livingRoomSideFrontTargetState == true) ShutterLibOn(BOARD_B, 3, defaultWindowDuration);
-            else if (livingRoomSideFront && livingRoomSideFrontTargetState == false) ShutterLibOn(BOARD_B, 4, defaultWindowDuration);
+            if (livingRoomSideFront)
+            {
+                DEBUG_TRACE("LIVINGROOMSIDEFRONT");
+                if (livingRoomSideFrontTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_B, 3, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_B, 4, defaultWindowDuration);
+                }
+            }
 
-            if (livingRoomSideGarden && livingRoomSideGardenTargetState == true) ShutterLibOn(BOARD_B, 5, defaultWindowDuration);
-            else if (livingRoomSideGarden && livingRoomSideGardenTargetState == false) ShutterLibOn(BOARD_B, 6, defaultWindowDuration);
+            if (livingRoomSideGarden)
+            {
+                DEBUG_TRACE("LIVINGROOMSIDEGARDEN");
+                if (livingRoomSideGardenTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_B, 5, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_B, 6, defaultWindowDuration);
+                }
+            }
 
-            if (livingRoomGarden && livingRoomGardenTargetState == true) ShutterLibOn(BOARD_B, 8, 30);
-            else if (livingRoomGarden && livingRoomGardenTargetState == false) ShutterLibOn(BOARD_B, 7, 30);
+            if (livingRoomGarden)
+            {
+                DEBUG_TRACE("LIVINGROOMGARDEN");
+                if (livingRoomGardenTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_B, 8, 30);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_B, 7, 30);
+                }
+            }
 
-            if (kitchenSide && kitchenSideTargetState == true) ShutterLibOn(BOARD_C, 1, defaultWindowDuration);
-            else if (kitchenSide && kitchenSideTargetState == false) ShutterLibOn(BOARD_C, 2, defaultWindowDuration);
+            if (kitchenSide)
+            {
+                DEBUG_TRACE("KITCHENSIDE");
+                if (kitchenSideTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_C, 1, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_C, 2, defaultWindowDuration);
+                }
+            }
 
-            if (studySide && studySideTargetState == true) ShutterLibOn(BOARD_C, 3, defaultWindowDuration);
-            else if (studySide && studySideTargetState == false) ShutterLibOn(BOARD_C, 4, defaultWindowDuration);
+            if (studySide)
+            {
+                DEBUG_TRACE("STUDYSIDE");
+                if (studySideTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_C, 3, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_C, 4, defaultWindowDuration);
+                }
+            }
 
-            if (studyGarden && studyGardenTargetState == true) ShutterLibOn(BOARD_C, 5, defaultWindowDuration);
-            else if (studyGarden && studyGardenTargetState == false) ShutterLibOn(BOARD_C, 6, defaultWindowDuration);
+            if (studyGarden)
+            {
+                DEBUG_TRACE("STUDYGARDEN");
+                if (studyGardenTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_C, 5, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_C, 6, defaultWindowDuration);
+                }
+            }
 
-            if (kitchenFront && kitchenFrontTargetState == true) ShutterLibOn(BOARD_C, 7, defaultWindowDuration);
-            else if (kitchenFront && kitchenFrontTargetState == false) ShutterLibOn(BOARD_C, 8, defaultWindowDuration);
+            if (kitchenFront)
+            {
+                DEBUG_TRACE("KITCHENFRONT");
+                if (kitchenFrontTargetState)
+                {
+                    DEBUG_TRACE("UP");
+                    ShutterLibOn(BOARD_C, 7, defaultWindowDuration);
+                }
+                else
+                {
+                    DEBUG_TRACE("DOWN");
+                    ShutterLibOn(BOARD_C, 8, defaultWindowDuration);
+                }
+            }
         }
     }
 
