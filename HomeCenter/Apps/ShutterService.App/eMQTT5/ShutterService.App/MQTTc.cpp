@@ -27,7 +27,7 @@ std::vector<std::string> split(std::string& s, const std::string& delimiter)
     tokens.push_back(s);
 
     return tokens;
-}:we
+}
 
 struct InitLogger 
 {
@@ -48,7 +48,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
         fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);        
         if(!strncmp(topic.data, "Shutters", 8))
         {
-            std::vector<std::string> v = split (payload.data, "/");
+            std::vector<std::string> v = split (std::string(payload.data), std::string("/"));
 
             for (auto i : v) 
                 std::cout << i << std::endl;
