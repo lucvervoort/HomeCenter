@@ -71,7 +71,7 @@ kitchenfront down BOARD_C 8
 */
 
 bool debugOn = false;
-int defaultWindowDuration = 20;
+int defaultWindowDuration = 5;
 
 void ShutterLibDebugOn()
 {
