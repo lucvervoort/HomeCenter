@@ -603,8 +603,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
                       else if(window == "studyGarden" && studyGardenTargetState == true) studyGardenTargetState = false;                      
                       window = "";
                 }
-            }
-        }
+            }        
 
         if(dressing && dressingTargetState == true) ShutterLibOn( BOARD_A, 1, 20 );
         else if(dressing && dressingTargetState == false) ShutterLibOn(BOARD_A, 2, 20);
