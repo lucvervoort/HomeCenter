@@ -441,16 +441,16 @@ struct InitLogger
 
 struct MessageReceiver : public Network::Client::MessageReceived
 {
-    void messageReceived(const Network::Client::MQTTv5::DynamicStringView & topic, const Network::Client::MQTTv5::DynamicBinDataView & payload,
-                         const uint16 packetIdentifier, const Network::Client::MQTTv5::PropertiesView & properties)
+    void messageReceived(const Network::Client::MQTTv5::DynamicStringView& topic, const Network::Client::MQTTv5::DynamicBinDataView& payload,
+        const uint16 packetIdentifier, const Network::Client::MQTTv5::PropertiesView& properties)
     {
         fprintf(stdout, "Msg received: (%04X)\n", packetIdentifier);
         fprintf(stdout, "  Topic: %.*s\n", topic.length, topic.data);
-        fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);   
-        std::string payloadContents(payload.data, payload.data+payload.length);     
-        if(!strncmp(topic.data, "Shutters", 8))
+        fprintf(stdout, "  Payload: %.*s\n", payload.length, payload.data);
+        std::string payloadContents(payload.data, payload.data + payload.length);
+        if (!strncmp(topic.data, "Shutters", 8))
         {
-            std::vector<std::string> v = split (payloadContents, std::string("/"));
+            std::vector<std::string> v = split(payloadContents, std::string("/"));
 
             bool dressing = false;
             bool dressingTargetState = false; // closed                
@@ -477,164 +477,165 @@ struct MessageReceiver : public Network::Client::MessageReceived
             bool studyGarden = false;
             bool studyGardenTargetState = false;
 
-            for (auto i : v) 
+            for (auto i : v)
             {
                 std::cout << i << std::endl;
                 bool setDebugState = false;
-                std::string window("");                
-                if( i == "setdebugstate" )
+                std::string window("");
+                if (i == "setdebugstate")
                 {
-                      setDebugState = true;
-                      window = "";
-                }             
-                else if( i == "on" )
-                {
-                      if(setDebugState) ShutterLibDebugOn();
-                      setDebugState = false;
-                      window = "";
+                    setDebugState = true;
+                    window = "";
                 }
-                else if( i ==  "off")
+                else if (i == "on")
                 {
-                      if(setDebugState) ShutterLibDebugOff();
-                      setDebugState = false;
-                      window = "";
+                    if (setDebugState) ShutterLibDebugOn();
+                    setDebugState = false;
+                    window = "";
                 }
-                else if( i == "dressing")
+                else if (i == "off")
                 {
-                      window = i;
-                      setDebugState = false;
-                      dressing = true;
+                    if (setDebugState) ShutterLibDebugOff();
+                    setDebugState = false;
+                    window = "";
                 }
-                else if( i == "bedroomside")
+                else if (i == "dressing")
                 {
-                      window = i;
-                      setDebugState = false;                   
-                      bedroomSide = true;
+                    window = i;
+                    setDebugState = false;
+                    dressing = true;
                 }
-                else if (i ==  "bathroom")
+                else if (i == "bedroomside")
                 {
-                      window = i;
-                      setDebugState = false;                 
-                      bathroom = true;
+                    window = i;
+                    setDebugState = false;
+                    bedroomSide = true;
                 }
-                else if( i == "bedroomgarden")
+                else if (i == "bathroom")
                 {
-                      window = i;
-                      setDebugState = false;                
-                      bedroomGarden = true;
-                      }
-                else if( i == "livingroomfront")
-                {
-                      window = i;
-                      setDebugState = false;
-                      livingRoomFront = true;
+                    window = i;
+                    setDebugState = false;
+                    bathroom = true;
                 }
-                else if( i == "livingroomsidefront")
+                else if (i == "bedroomgarden")
                 {
-                      window = i;
-                      setDebugState = false;
-                      livingRoomSideFront = true;
+                    window = i;
+                    setDebugState = false;
+                    bedroomGarden = true;
                 }
-                else if( i == "livingroomsidegarden")
+                else if (i == "livingroomfront")
                 {
-                      window = i;
-                      setDebugState = false;
-                      livingRoomSideGarden = true;
+                    window = i;
+                    setDebugState = false;
+                    livingRoomFront = true;
                 }
-                else if( i == "livingroomgarden")
+                else if (i == "livingroomsidefront")
                 {
-                      window = i;
-                      setDebugState = false;
-                      livingRoomGarden = true;
+                    window = i;
+                    setDebugState = false;
+                    livingRoomSideFront = true;
                 }
-                else if( i == "kitchenside")
+                else if (i == "livingroomsidegarden")
                 {
-                      window = i;
-                      setDebugState = false;
-                      kitchenSide = true;
+                    window = i;
+                    setDebugState = false;
+                    livingRoomSideGarden = true;
                 }
-                else if( i == "kitchenfront")
+                else if (i == "livingroomgarden")
                 {
-                      window = i;
-                      setDebugState = false;
-                      kitchenFront = true;
+                    window = i;
+                    setDebugState = false;
+                    livingRoomGarden = true;
                 }
-                else if( i == "studyside")
+                else if (i == "kitchenside")
                 {
-                      window = i;
-                      setDebugState = false;
-                      studySide = true;
+                    window = i;
+                    setDebugState = false;
+                    kitchenSide = true;
                 }
-                else if( i == "studygarden")
+                else if (i == "kitchenfront")
                 {
-                      window = i;
-                      setDebugState = false;                   
-                      studyGarden = true;
+                    window = i;
+                    setDebugState = false;
+                    kitchenFront = true;
                 }
-                else if( i == "up")
+                else if (i == "studyside")
                 {
-                      if(window == "dressing" && dressingTargetState == false) dressingTargetState = true;
-                      else if(window == "bedroomSide" && bedroomSideTargetState == false) bedroomSideTargetState = true;
-                      else if(window == "bathroom" && bathroomTargetState == false) bathroomTargetState = true;
-                      else if(window == "bedroomGarden" && bedroomGardenTargetState == false) bedroomGardenTargetState = true;
-                      else if(window == "livingRoomFront" && livingRoomFrontTargetState == false) livingRoomFrontTargetState = true;
-                      else if(window == "livingRoomSideFront" && livingRoomFrontTargetState == false) livingRoomFrontTargetState = true;
-                      else if(window == "livingRoomSideGarden" && livingRoomSideGardenTargetState == false) livingRoomSideGardenTargetState = true;
-                      else if(window == "livingRoomGarden" && livingRoomGardenTargetState == false) livingRoomGardenTargetState = true;
-                      else if(window == "kitchenFront" && kitchenFrontTargetState == false) kitchenFrontTargetState = true;
-                      else if(window == "kitchenSide" && kitchenSideTargetState == false) kitchenSideTargetState = true;
-                      else if(window == "studySide" && studySideTargetState == false) studySideTargetState = true;
-                      else if(window == "studyGarden" && studyGardenTargetState == false) studyGardenTargetState = true;
-                      window = "";
+                    window = i;
+                    setDebugState = false;
+                    studySide = true;
                 }
-                else if( i == "down")
+                else if (i == "studygarden")
                 {
-                      if(window == "dressing" && dressingTargetState == true) dressingTargetState = false;
-                      else if(window == "bedroomSide" && bedroomSideTargetState == true) bedroomSideTargetState = false;
-                      else if(window == "bathroom" && bathroomTargetState == true) bathroomTargetState = false;
-                      else if(window == "bedroomGarden" && bedroomGardenTargetState == true) bedroomGardenTargetState = false;
-                      else if(window == "livingRoomFront" && livingRoomFrontTargetState == true) livingRoomFrontTargetState = false;
-                      else if(window == "livingRoomSideFront" && livingRoomFrontTargetState == true) livingRoomFrontTargetState = false;
-                      else if(window == "livingRoomSideGarden" && livingRoomSideGardenTargetState == true) livingRoomSideGardenTargetState = false;
-                      else if(window == "livingRoomGarden" && livingRoomGardenTargetState == true) livingRoomGardenTargetState = false;
-                      else if(window == "kitchenFront" && kitchenFrontTargetState == true) kitchenFrontTargetState = false;
-                      else if(window == "kitchenSide" && kitchenSideTargetState == true) kitchenSideTargetState = false;
-                      else if(window == "studySide" && studySideTargetState == true) studySideTargetState = false;
-                      else if(window == "studyGarden" && studyGardenTargetState == true) studyGardenTargetState = false;                      
-                      window = "";
+                    window = i;
+                    setDebugState = false;
+                    studyGarden = true;
                 }
-            }        
+                else if (i == "up")
+                {
+                    if (window == "dressing" && dressingTargetState == false) dressingTargetState = true;
+                    else if (window == "bedroomSide" && bedroomSideTargetState == false) bedroomSideTargetState = true;
+                    else if (window == "bathroom" && bathroomTargetState == false) bathroomTargetState = true;
+                    else if (window == "bedroomGarden" && bedroomGardenTargetState == false) bedroomGardenTargetState = true;
+                    else if (window == "livingRoomFront" && livingRoomFrontTargetState == false) livingRoomFrontTargetState = true;
+                    else if (window == "livingRoomSideFront" && livingRoomFrontTargetState == false) livingRoomFrontTargetState = true;
+                    else if (window == "livingRoomSideGarden" && livingRoomSideGardenTargetState == false) livingRoomSideGardenTargetState = true;
+                    else if (window == "livingRoomGarden" && livingRoomGardenTargetState == false) livingRoomGardenTargetState = true;
+                    else if (window == "kitchenFront" && kitchenFrontTargetState == false) kitchenFrontTargetState = true;
+                    else if (window == "kitchenSide" && kitchenSideTargetState == false) kitchenSideTargetState = true;
+                    else if (window == "studySide" && studySideTargetState == false) studySideTargetState = true;
+                    else if (window == "studyGarden" && studyGardenTargetState == false) studyGardenTargetState = true;
+                    window = "";
+                }
+                else if (i == "down")
+                {
+                    if (window == "dressing" && dressingTargetState == true) dressingTargetState = false;
+                    else if (window == "bedroomSide" && bedroomSideTargetState == true) bedroomSideTargetState = false;
+                    else if (window == "bathroom" && bathroomTargetState == true) bathroomTargetState = false;
+                    else if (window == "bedroomGarden" && bedroomGardenTargetState == true) bedroomGardenTargetState = false;
+                    else if (window == "livingRoomFront" && livingRoomFrontTargetState == true) livingRoomFrontTargetState = false;
+                    else if (window == "livingRoomSideFront" && livingRoomFrontTargetState == true) livingRoomFrontTargetState = false;
+                    else if (window == "livingRoomSideGarden" && livingRoomSideGardenTargetState == true) livingRoomSideGardenTargetState = false;
+                    else if (window == "livingRoomGarden" && livingRoomGardenTargetState == true) livingRoomGardenTargetState = false;
+                    else if (window == "kitchenFront" && kitchenFrontTargetState == true) kitchenFrontTargetState = false;
+                    else if (window == "kitchenSide" && kitchenSideTargetState == true) kitchenSideTargetState = false;
+                    else if (window == "studySide" && studySideTargetState == true) studySideTargetState = false;
+                    else if (window == "studyGarden" && studyGardenTargetState == true) studyGardenTargetState = false;
+                    window = "";
+                }
+            }
 
-        if(dressing && dressingTargetState == true) ShutterLibOn( BOARD_A, 1, 20 );
-        else if(dressing && dressingTargetState == false) ShutterLibOn(BOARD_A, 2, 20);
-        if(bedroomSide && bedroomSideTargetState == true) ShutterLibOn( BOARD_A, 3, 20);
-        else if(bedroomSide && bedroomSideTargetState == false) ShutterLibOn( BOARD_A, 4, 20);
-        if(bathroom && bathroomTargetState == true) ShutterLibOn( BOARD_A, 5, 20);
-        else if(bathroom && bathroomTargetState == false) ShutterLibOn( BOARD_A, 6, 20);
-        if(bedroomGarden && bedroomGardenTargetState == true) ShutterLibOn( BOARD_A, 7, 20);
-        else if(bedroomGarden && bedroomGardenTargetState == false) ShutterLibOn( BOARD_A, 8, 20);
+            if (dressing && dressingTargetState == true) ShutterLibOn(BOARD_A, 1, 20);
+            else if (dressing && dressingTargetState == false) ShutterLibOn(BOARD_A, 2, 20);
+            if (bedroomSide && bedroomSideTargetState == true) ShutterLibOn(BOARD_A, 3, 20);
+            else if (bedroomSide && bedroomSideTargetState == false) ShutterLibOn(BOARD_A, 4, 20);
+            if (bathroom && bathroomTargetState == true) ShutterLibOn(BOARD_A, 5, 20);
+            else if (bathroom && bathroomTargetState == false) ShutterLibOn(BOARD_A, 6, 20);
+            if (bedroomGarden && bedroomGardenTargetState == true) ShutterLibOn(BOARD_A, 7, 20);
+            else if (bedroomGarden && bedroomGardenTargetState == false) ShutterLibOn(BOARD_A, 8, 20);
 
-        if(livingRoomFront && livingRoomFrontTargetState == true) ShutterLibOn( BOARD_B, 1, 20 );
-        else if(livingRoomFront && livingRoomFrontTargetState == false) ShutterLibOn(BOARD_B, 2, 20);
-        if(livingRoomSideFront && livingRoomSideFrontTargetState == true) ShutterLibOn( BOARD_B, 3, 20);
-        else if(livingRoomSideFront && livingRoomSideFrontTargetState == false) ShutterLibOn( BOARD_B, 4, 20);
-        if(livingRoomSideGarden && livingRoomSideGardenTargetState == true) ShutterLibOn( BOARD_B, 5, 20);
-        else if(livingRoomSideGarden && livingRoomSideGardenTargetState == false) ShutterLibOn( BOARD_B, 6, 20);
-        if(livingRoomGarden && livingRoomGardenTargetState == true) ShutterLibOn( BOARD_B, 8, 30);
-        else if(livingRoomGarden && livingRoomGardenTargetState == false) ShutterLibOn( BOARD_B, 7, 30);
+            if (livingRoomFront && livingRoomFrontTargetState == true) ShutterLibOn(BOARD_B, 1, 20);
+            else if (livingRoomFront && livingRoomFrontTargetState == false) ShutterLibOn(BOARD_B, 2, 20);
+            if (livingRoomSideFront && livingRoomSideFrontTargetState == true) ShutterLibOn(BOARD_B, 3, 20);
+            else if (livingRoomSideFront && livingRoomSideFrontTargetState == false) ShutterLibOn(BOARD_B, 4, 20);
+            if (livingRoomSideGarden && livingRoomSideGardenTargetState == true) ShutterLibOn(BOARD_B, 5, 20);
+            else if (livingRoomSideGarden && livingRoomSideGardenTargetState == false) ShutterLibOn(BOARD_B, 6, 20);
+            if (livingRoomGarden && livingRoomGardenTargetState == true) ShutterLibOn(BOARD_B, 8, 30);
+            else if (livingRoomGarden && livingRoomGardenTargetState == false) ShutterLibOn(BOARD_B, 7, 30);
 
-        if(kitchenSide && kitchenSideTargetState == true) ShutterLibOn( BOARD_C, 1, 20 );
-        else if(kitchenSide && kitchenSideTargetState == false) ShutterLibOn(BOARD_C, 2, 20);
-        if(studySide && studySideTargetState == true) ShutterLibOn( BOARD_C, 3, 20);
-        else if(studySide && studySideTargetState == false) ShutterLibOn( BOARD_C, 4, 20);
-        if(studyGarden && studyGardenTargetState == true) ShutterLibOn( BOARD_C, 5, 20);
-        else if(studyGarden && studyGardenTargetState == false) ShutterLibOn( BOARD_C, 6, 20);
-        if(kitchenFront && kitchenFrontTargetState == true) ShutterLibOn( BOARD_C, 7, 20);
-        else if(kitchenFront && kitchenFrontTargetState == false) ShutterLibOn( BOARD_C, 8, 20);       
+            if (kitchenSide && kitchenSideTargetState == true) ShutterLibOn(BOARD_C, 1, 20);
+            else if (kitchenSide && kitchenSideTargetState == false) ShutterLibOn(BOARD_C, 2, 20);
+            if (studySide && studySideTargetState == true) ShutterLibOn(BOARD_C, 3, 20);
+            else if (studySide && studySideTargetState == false) ShutterLibOn(BOARD_C, 4, 20);
+            if (studyGarden && studyGardenTargetState == true) ShutterLibOn(BOARD_C, 5, 20);
+            else if (studyGarden && studyGardenTargetState == false) ShutterLibOn(BOARD_C, 6, 20);
+            if (kitchenFront && kitchenFrontTargetState == true) ShutterLibOn(BOARD_C, 7, 20);
+            else if (kitchenFront && kitchenFrontTargetState == false) ShutterLibOn(BOARD_C, 8, 20);
+        }
     }
 
 #if MQTTUseAuth == 1
-    bool authReceived(const ReasonCodes reasonCode, const DynamicStringView & authMethod, const DynamicBinDataView & authData, const PropertiesView & properties)
+    bool authReceived(const ReasonCodes reasonCode, const DynamicStringView& authMethod, const DynamicBinDataView& authData, const PropertiesView& properties)
     {
         fprintf(stdout, "Auth packet received\n");
         fprintf(stdout, "  AuthMethod: %.*s\n", authMethod.length, authMethod.data);
@@ -654,7 +655,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
         }
         return true;
     }
-    Network::Client::MQTTv5 * client;
+    Network::Client::MQTTv5* client;
 #endif
 };
 
