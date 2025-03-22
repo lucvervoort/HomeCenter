@@ -511,87 +511,162 @@ struct MessageReceiver : public Network::Client::MessageReceived
                 }
                 else if (i == "a")
                 {
+                    DEBUG_TRACE("Setting board to A");
                     board = "a";
                 }
                 else if (i == "b")
                 {
+                    DEBUG_TRACE("Setting board to B");
                     board = "b";
                 }
                 else if (i == "c")
                 {
+                    DEBUG_TRACE("Setting board to C");
                     board = "c";
                 }
                 else if (i == "1")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A1");
                         a[0] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B1");
                         b[0] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C1");
                         c[0] = true;
+                    }
                 }
                 else if (i == "2")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A2");
                         a[1] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B2");
                         b[1] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C2");
                         c[1] = true;
+                    }
                 }
                 else if (i == "3")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A3");
                         a[2] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B3");
                         b[2] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C3");
                         c[2] = true;
+                    }
                 }
                 else if (i == "4")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A4");
                         a[3] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B4");
                         b[3] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C4");
                         c[3] = true;
+                    }
                 }
                 else if (i == "5")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A5");
                         a[4] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B5");
                         b[4] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C5");
                         c[4] = true;
+                    }
                 }
                 else if (i == "6")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A6");
                         a[5] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B6");
                         b[5] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C6");
                         c[5] = true;
+                    }
                 }
                 else if (i == "7")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A7");
                         a[6] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B7");
                         b[6] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C7");
                         c[6] = true;
+                    }
                 }
                 else if (i == "8")
                 {
                     if (board == "a")
+                    {
+                        DEBUG_TRACE("Setting A8");
                         a[7] = true;
+                    }
                     else if (board == "b")
+                    {
+                        DEBUG_TRACE("Setting B8");
                         b[7] = true;
+                    }
                     else if (board == "c")
+                    {
+                        DEBUG_TRACE("Setting C8");
                         c[7] = true;
+                    }
                 }
                 else if (i == "on")
                 {
@@ -727,11 +802,17 @@ struct MessageReceiver : public Network::Client::MessageReceived
             for (int i = 0; i < 8; i++)
             {
                 if (a[i])
+                {
                     ShutterLibOn(BOARD_A, i + 1, defaultWindowDuration);
+                }
                 if (b[i])
+                {
                     ShutterLibOn(BOARD_B, i + 1, defaultWindowDuration);
+                }
                 if (c[i])
+                {
                     ShutterLibOn(BOARD_C, i + 1, defaultWindowDuration);
+                }
             }
             if (dressing)
             {
