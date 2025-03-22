@@ -494,6 +494,10 @@ struct MessageReceiver : public Network::Client::MessageReceived
             bool studyGarden = false;
             bool studyGardenTargetState = false;
             bool setDebugState = false;
+            bool a[8] = { false, false, false, false, false, false, false, false }; // board 2
+            bool b[8] = { false, false, false, false, false, false, false, false }; // board 1
+            bool c[8] = { false, false, false, false, false, false, false, false }; // board 0
+            std::string board = "";
 
             for (auto i : v)
             {
@@ -505,6 +509,90 @@ struct MessageReceiver : public Network::Client::MessageReceived
                     std::cout << "About to set debug state..." << std::endl;
                     window = "";
                 }
+                else if (i == "a")
+                {
+                    board = "a";
+                }
+                else if (i == "b")
+                {
+                    board = "b";
+                }
+                else if (i == "c")
+                {
+                    board = "c";
+                }
+                else if (i == "1")
+                {
+                    if (board == "a")
+                        a[0] = true;
+                    else if (board == "b")
+                        b[0] = true;
+                    else if (board == "c")
+                        c[0] = true;
+                }
+                else if (i == "2")
+                {
+                    if (board == "a")
+                        a[1] = true;
+                    else if (board == "b")
+                        b[1] = true;
+                    else if (board == "c")
+                        c[1] = true;
+                }
+                else if (i == "3")
+                {
+                    if (board == "a")
+                        a[2] = true;
+                    else if (board == "b")
+                        b[2] = true;
+                    else if (board == "c")
+                        c[2] = true;
+                }
+                else if (i == "4")
+                {
+                    if (board == "a")
+                        a[3] = true;
+                    else if (board == "b")
+                        b[3] = true;
+                    else if (board == "c")
+                        c[3] = true;
+                }
+                else if (i == "5")
+                {
+                    if (board == "a")
+                        a[4] = true;
+                    else if (board == "b")
+                        b[4] = true;
+                    else if (board == "c")
+                        c[4] = true;
+                }
+                else if (i == "6")
+                {
+                    if (board == "a")
+                        a[5] = true;
+                    else if (board == "b")
+                        b[5] = true;
+                    else if (board == "c")
+                        c[5] = true;
+                }
+                else if (i == "7")
+                {
+                    if (board == "a")
+                        a[6] = true;
+                    else if (board == "b")
+                        b[6] = true;
+                    else if (board == "c")
+                        c[6] = true;
+                }
+                else if (i == "8")
+                {
+                    if (board == "a")
+                        a[7] = true;
+                    else if (board == "b")
+                        b[7] = true;
+                    else if (board == "c")
+                        c[7] = true;
+                }
                 else if (i == "on")
                 {
                     if (setDebugState)
@@ -514,6 +602,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
                     }
                     setDebugState = false;
                     window = "";
+                    board = "";
                 }
                 else if (i == "off")
                 {
@@ -524,6 +613,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
                     }
                     setDebugState = false;
                     window = "";
+                    board = "";
                 }
                 else if (i == "dressing")
                 {
@@ -612,6 +702,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
                     else if (window == "studySide" && studySideTargetState == false) studySideTargetState = true;
                     else if (window == "studyGarden" && studyGardenTargetState == false) studyGardenTargetState = true;
                     window = "";
+                    board = "";
                 }
                 else if (i == "down")
                 {
@@ -628,10 +719,20 @@ struct MessageReceiver : public Network::Client::MessageReceived
                     else if (window == "studySide" && studySideTargetState == true) studySideTargetState = false;
                     else if (window == "studyGarden" && studyGardenTargetState == true) studyGardenTargetState = false;
                     window = "";
+                    board = "";
                 }
             }
 
             ShutterLibInitialize();
+            for (int i = 0; i < 8; i++)
+            {
+                if (a[i])
+                    ShutterLibOn(BOARD_A, i + 1, defaultWindowDuration);
+                if (b[i])
+                    ShutterLibOn(BOARD_B, i + 1, defaultWindowDuration);
+                if (c[i])
+                    ShutterLibOn(BOARD_C, i + 1, defaultWindowDuration);
+            }
             if (dressing)
             {
                 DEBUG_TRACE("DRESSING");
