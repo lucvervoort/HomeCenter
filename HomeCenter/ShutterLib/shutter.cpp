@@ -311,7 +311,6 @@ void firmware_version(int fd)
 	DEBUG_TRACE( "<- firmware_version" );
 }
 
-
 void ShutterLibAllOff()
 {
 	DEBUG_TRACE( "-> ShutterLibAllOff" );
@@ -371,15 +370,21 @@ extern "C" void ShutterLibShutdown()
 {
 	DEBUG_TRACE( "-> ShutterLibShutdown" );
 	free( window );
+	window = 0;
 	free( direction );
+	direction = 0;
 	free( on_map );
+	on_map = 0;
 	free( off_map );
+	off_map = 0;
 	free( toggle_map );
+	toggle_map = 0;
 	free( cycle_map );
+	cycle_map = 0;
 	free( status_map );
+	status_map = 0;
 	DEBUG_TRACE( "<- ShutterLibShutdown" );
 }
-
 
 extern "C" void ShutterLibInitialize()
 {

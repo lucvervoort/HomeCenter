@@ -1,4 +1,8 @@
 
+## CloudEvents
+
+https://github.com/cloudevents/spec/blob/main/cesql/README.md
+
 ## Wat zijn tijdreeksgegevens? 
 
 Tijdreeksgegevens of temporele gegevens zijn een opeenvolging van gegevenspunten die over tijdsintervallen zijn verzameld, waardoor we veranderingen in de tijd kunnen volgen. Tijdreeksgegevens kunnen veranderingen in milliseconden, dagen of zelfs jaren volgen. Toegang hebben tot gedetailleerde, functierijke tijdreeksgegevens is een van de meest waardevolle goederen geworden in onze informatiehongerige wereld. Bedrijven, overheden, scholen en gemeenschappen, groot en klein, vinden onschatbare manieren om waarde te halen uit het analyseren van tijdreeksgegevens. 

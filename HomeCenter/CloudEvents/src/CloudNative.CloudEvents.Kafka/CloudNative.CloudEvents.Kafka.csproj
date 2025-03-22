@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+    <Description>Kafka extensions for CloudNative.CloudEvents</Description>
+    <PackageTags>cncf;cloudnative;cloudevents;events;kafka</PackageTags>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" />
+    <ProjectReference Include="..\CloudNative.CloudEvents\CloudNative.CloudEvents.csproj" />
+  </ItemGroup>
+
+</Project>
+

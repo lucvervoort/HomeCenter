@@ -1,3 +1,10 @@
+
+// deploy: git pull
+// see root@rpshutters:/home/u23893/HomeCenter/HomeCenter/Apps/ShutterService.App/eMQTT5/build
+//  ./ShutterService.App/MQTTShutterService.App -s 192.168.1.38 -u sidlvet -pw KrommeBeet55 -sub Shutters -c 55545
+// run server on pc
+// 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -393,12 +400,19 @@ void ShutterLibShutdown()
 {
 	DEBUG_TRACE( "-> ShutterLibShutdown" );
 	free( window );
+    window = 0;
 	free( direction );
+    direction = 0;
 	free( on_map );
+    on_map = 0;
 	free( off_map );
+    off_map = 0;
 	free( toggle_map );
+    toggle_map = 0;
 	free( cycle_map );
+    cycle_map = 0;
 	free( status_map );
+    status_map = 0;
 	DEBUG_TRACE( "<- ShutterLibShutdown" );
 }
 
@@ -617,6 +631,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
                 }
             }
 
+            ShutterLibInitialize();
             if (dressing)
             {
                 DEBUG_TRACE("DRESSING");
@@ -796,6 +811,7 @@ struct MessageReceiver : public Network::Client::MessageReceived
                     ShutterLibOn(BOARD_C, 8, defaultWindowDuration);
                 }
             }
+            ShutterLibShutdown();
         }
     }
 

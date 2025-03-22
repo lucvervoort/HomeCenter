@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+    <Description>ASP.Net Core extensions for CloudNative.CloudEvents</Description>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <PackageTags>cncf;cloudnative;cloudevents;events;aspnetcore;aspnet</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0' and '$(TargetFramework)' != 'netstandard2.1'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
+    <PackageReference Include="Microsoft.AspNetCore.Http" />
+    <PackageReference Include="System.Text.Encodings.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudNative.CloudEvents\CloudNative.CloudEvents.csproj" />
+  </ItemGroup>
+
+</Project>
+

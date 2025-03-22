@@ -1,0 +1,52 @@
+<Project>
+  <PropertyGroup>
+    <!-- 
+      - We use the same minor/patch version number for all stable
+      - packages, and the same major for most packages.
+      - See RELEASING.md for details.
+      -->
+    <MajorVersion>2</MajorVersion>
+    <MinorVersion>8</MinorVersion>
+    <PatchVersion>0</PatchVersion>
+    <PackageValidationMinor>8</PackageValidationMinor>
+    <Version>$(MajorVersion).$(MinorVersion).$(PatchVersion)</Version>
+    <!-- 
+      - The version used for detecting breaking changes.
+      - This is always older than the current version (except when creating a new major)
+      - and is the patch-0 of either the current minor (if the current patch is non-zero)
+      - or the previous minor (if the current patch is zero).
+      -->
+    <PackageValidationBaselineVersion>2.$(PackageValidationMinor).0</PackageValidationBaselineVersion>
+    
+    <!-- Make the repository root available for other properties -->
+    <RepoRoot>$([System.IO.Path]::GetDirectoryName($([MSBuild]::GetPathOfFileAbove('.gitignore', '$(MSBuildThisFileDirectory)'))))</RepoRoot>
+
+    <!-- Build properties -->
+    <AssemblyOriginatorKeyFile>$(RepoRoot)/CloudEventsSdk.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>True</SignAssembly>
+    <Deterministic>True</Deterministic>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>    
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <ApiCompatEnableRuleCannotChangeParameterName>true</ApiCompatEnableRuleCannotChangeParameterName>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!-- Package properties -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PackageIcon>nuget-icon.png</PackageIcon>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/cloudevents/sdk-csharp</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://cloudevents.io</PackageProjectUrl>
+    <Copyright>Copyright Cloud Native Foundation</Copyright>
+  </PropertyGroup>
+  
+  <!-- Package the icon specified in the PackageIcon property -->
+  <ItemGroup>
+    <None Include="$(RepoRoot)\nuget-icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+</Project>
